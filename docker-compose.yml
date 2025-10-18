@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=company_db
+      - POSTGRES_USER=company_user
+      - POSTGRES_PASSWORD=company_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U company_user -d company_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  parser:
+    build: ./parser
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://company_user:company_password@db:5432/company_db
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./parser:/app
+    command: >
+      sh -c "sleep 5 && 
+             alembic upgrade head && 
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  adminer:
+    image: adminer:4.8.1
+    ports:
+      - "8080:8080"
+    environment:
+      - ADMINER_DEFAULT_SERVER=db
+      - ADMINER_DEFAULT_USERNAME=company_user
+      - ADMINER_DEFAULT_PASSWORD=company_password
+      - ADMINER_DEFAULT_DATABASE=company_db
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
