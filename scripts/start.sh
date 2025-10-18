@@ -9,7 +9,7 @@ if ! command -v docker compose &> /dev/null; then
 fi
 
 # Запуск сервисов
-docker-compose up -d
+docker compose up -d
 
 echo "Services started:"
 echo "- API: http://localhost:8000"
