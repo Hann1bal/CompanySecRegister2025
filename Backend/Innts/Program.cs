@@ -3,7 +3,8 @@ using System.Text;
 using Innts.Context;
 using Innts.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
+using Innts.Repository;     // если CompanyRepository там
+using Innts.Models;           // если CompanyModel там
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -53,6 +54,7 @@ builder.Services.AddDbContextFactory<DatabaseContext>
 
     }
 );
+builder.Services.AddScoped<IBaseRepository<CompanyModel>, CompanyRepository>();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddAuthentication(options =>
@@ -109,11 +111,12 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
-app.MapOpenApi();
+//app.MapOpenApi();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapGet("/", () => Results.Redirect("/openapi/v1.json"));
 }
 app.UseAuthentication();
 app.UseHttpsRedirection();

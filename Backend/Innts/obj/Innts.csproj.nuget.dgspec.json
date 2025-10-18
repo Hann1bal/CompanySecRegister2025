@@ -63,13 +63,17 @@
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[9.0.8, )"
+              "version": "[9.0.10, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
               "version": "[9.0.10, )"
             },

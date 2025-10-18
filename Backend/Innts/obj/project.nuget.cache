@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qYx8SY0iUT8=",
+  "dgSpecHash": "iKz4fgSZt1M=",
   "success": true,
   "projectFilePath": "/home/jafarabat/hack/CompanySecRegister2025/Backend/Innts/Innts.csproj",
   "expectedPackageFiles": [
@@ -13,7 +13,7 @@
     "/home/jafarabat/.nuget/packages/microsoft.aspnetcore.cryptography.internal/9.0.10/microsoft.aspnetcore.cryptography.internal.9.0.10.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/9.0.10/microsoft.aspnetcore.cryptography.keyderivation.9.0.10.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/9.0.10/microsoft.aspnetcore.identity.entityframeworkcore.9.0.10.nupkg.sha512",
-    "/home/jafarabat/.nuget/packages/microsoft.aspnetcore.openapi/9.0.8/microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
+    "/home/jafarabat/.nuget/packages/microsoft.aspnetcore.openapi/9.0.10/microsoft.aspnetcore.openapi.9.0.10.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.bcl.asyncinterfaces/7.0.0/microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.build.framework/17.8.3/microsoft.build.framework.17.8.3.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.build.locator/1.7.8/microsoft.build.locator.1.7.8.nupkg.sha512",
@@ -28,6 +28,7 @@
     "/home/jafarabat/.nuget/packages/microsoft.entityframeworkcore.analyzers/9.0.10/microsoft.entityframeworkcore.analyzers.9.0.10.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.entityframeworkcore.design/9.0.10/microsoft.entityframeworkcore.design.9.0.10.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.entityframeworkcore.relational/9.0.10/microsoft.entityframeworkcore.relational.9.0.10.nupkg.sha512",
+    "/home/jafarabat/.nuget/packages/microsoft.entityframeworkcore.tools/9.0.10/microsoft.entityframeworkcore.tools.9.0.10.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.extensions.caching.abstractions/9.0.10/microsoft.extensions.caching.abstractions.9.0.10.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.extensions.caching.memory/9.0.10/microsoft.extensions.caching.memory.9.0.10.nupkg.sha512",
     "/home/jafarabat/.nuget/packages/microsoft.extensions.configuration/9.0.3/microsoft.extensions.configuration.9.0.3.nupkg.sha512",

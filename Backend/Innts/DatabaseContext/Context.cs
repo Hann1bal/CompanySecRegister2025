@@ -7,6 +7,7 @@ using Npgsql;
 
 namespace Innts.Context;
 
+
 public class DatabaseContext : IdentityDbContext<CustomUser, IdentityRole<long>, long>
 {
     public readonly IConfiguration _configuration;
@@ -21,8 +22,10 @@ public class DatabaseContext : IdentityDbContext<CustomUser, IdentityRole<long>,
 
     public static string GetDatabaseConnectionString(IConfiguration _configuration)
     {
+
         var port = int.TryParse(_configuration["DataBase:port"], out var result);
-        return new NpgsqlConnectionStringBuilder
+        var con = 
+         new NpgsqlConnectionStringBuilder
         {
             Host = _configuration["DataBase:host"],
             Port = result,
@@ -30,6 +33,8 @@ public class DatabaseContext : IdentityDbContext<CustomUser, IdentityRole<long>,
             Username = _configuration["DataBase:username"],
             Password = _configuration["DataBase:password"],
         }.ConnectionString;
+        Console.WriteLine(con);
+        return con;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

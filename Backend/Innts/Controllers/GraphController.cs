@@ -14,6 +14,7 @@ public class GraphController(IBaseRepository<CompanyModel> dbRepository, TestSer
     private readonly IBaseRepository<CompanyModel> _dbRepository = dbRepository;
 
     [HttpGet]
+    [Route("GetGraph")]
     public async Task<ActionResult> GetGraph()
     {
         _testService.InitNodes();
@@ -24,6 +25,7 @@ public class GraphController(IBaseRepository<CompanyModel> dbRepository, TestSer
         return Ok(Graph);
     }
     [HttpPost]
+    [Route("AddBatch")]
     public async Task<ActionResult> AddBatch([FromBody] List<CompanyModelDto> companyModelDto)
     {
         List<CompanyModel> companyModels = [];

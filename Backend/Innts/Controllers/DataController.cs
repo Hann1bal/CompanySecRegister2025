@@ -15,15 +15,16 @@ namespace Innts.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class DataController(UserManager<CustomUser> userManager, IBaseRepository<CompanyModel> dbRepository, IDbContextFactory<DatabaseContext> dbContext, IFileService fileService) : ControllerBase
+public class DataController(IBaseRepository<CompanyModel> dbRepository, IDbContextFactory<DatabaseContext> dbContext, IFileService fileService) : ControllerBase
 {
 
-    private readonly UserManager<CustomUser> _userManager = userManager;
+    //private readonly UserManager<CustomUser> _userManager = userManager;
     private readonly IBaseRepository<CompanyModel> _dbRepository = dbRepository;
     private readonly IDbContextFactory<DatabaseContext> dbContext = dbContext;
     private readonly IFileService _fileService = fileService;
 
-    [HttpPut("{inn}")]
+    [HttpPut]
+    [Route("UpdateCompany/{inn}")]
     public async Task<ActionResult> UpdateCompany(string inn, [FromBody] Dictionary<string, object> updateFields)
     {
         var _context = await dbContext.CreateDbContextAsync();
@@ -150,7 +151,8 @@ public class DataController(UserManager<CustomUser> userManager, IBaseRepository
         }
     }
     // Импорт компаний из Excel
-    [HttpPost("import/excel")]
+    [HttpPost]
+    [Route("/ImportFromExcel")]
     public async Task<IActionResult> ImportFromExcel(IFormFile file)
     {
         var _context = await dbContext.CreateDbContextAsync();
@@ -203,6 +205,7 @@ public class DataController(UserManager<CustomUser> userManager, IBaseRepository
         }
     }
     [HttpPost]
+    [Route("AddCompany")]
     public async Task<ActionResult> AddCompany([FromBody] CompanyModelDto companyModelDto)
     {
         var data = EntityMapper.MapToEntity<CompanyModel, CompanyModelDto>(companyModelDto, new CompanyModel());
@@ -210,12 +213,14 @@ public class DataController(UserManager<CustomUser> userManager, IBaseRepository
         return Ok(data);
     }
     [HttpGet]
+    [Route("GetAll")]
     public async Task<ActionResult> GetAll()
     {
         var data = _dbRepository.GetAll();
         return Ok(data);
     }
     [HttpPost]
+    [Route("UploadFile")]
     public async Task<ActionResult> UploadFile(List<IFormFile> files)
     {
         long size = files.Sum(f => f.Length);
@@ -237,6 +242,7 @@ public class DataController(UserManager<CustomUser> userManager, IBaseRepository
     }
 
     [HttpGet]
+    [Route("GetData")]
     public async Task<ActionResult> GetData([FromBody] CompanyFinderDto model)
     {
         if (model.INN is not null)

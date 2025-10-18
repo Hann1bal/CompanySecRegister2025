@@ -21,6 +21,7 @@ public class HookController(UserManager<CustomUser> userManager, IBaseRepository
     private readonly IBaseRepository<CompanyModel> _dbRepository = dbRepository;
 
     [HttpPost]
+    [Route("AddCompany1")]
     public async Task<ActionResult> AddCompany([FromBody] CompanyModelDto companyModelDto)
     {
         var data = EntityMapper.MapToEntity<CompanyModel, CompanyModelDto>(companyModelDto, new CompanyModel());
@@ -28,6 +29,7 @@ public class HookController(UserManager<CustomUser> userManager, IBaseRepository
         return Ok();
     }
     [HttpPost]
+    [Route("AddBatch1")]
     public async Task<ActionResult> AddBatch([FromBody] List<CompanyModelDto> companyModelDto)
     {
         List<CompanyModel> companyModels = [];
