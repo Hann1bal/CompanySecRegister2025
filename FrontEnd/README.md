@@ -1,63 +1,30 @@
-# Система анализа данных
+# React + TypeScript + Vite
 
-## Обзор
-Веб-приложение для сбора, обработки и анализа данных с возможностями машинного обучения.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Архитектура
-Система построена по трехзвенной REST-архитектуре:
+Currently, two official plugins are available:
 
-![Архитектура системы анализа данных](diagrams/architecture.png)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-### Компоненты системы
+## Expanding the ESLint configuration
 
-- **Frontend** - Пользовательский интерфейс
-  - Формы ввода данных с валидацией
-  - Загрузка файлов различных форматов
-  - Интерактивная визуализация данных и графики
-  - Адаптивный веб-дизайн
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- **Backend** - Бизнес-логика
-  - Обработка и преобразование данных
-  - Интеграция и выполнение ML-моделей
-  - Управление API-ендпоинтами
-  - Координация работы с хранилищем данных
+- Configure the top-level `parserOptions` property like this:
 
-- **Database** - Хранилище данных
-  - Реляционная база данных
-  - Структурированное хранение информации
-  - Управление транзакциями
+```js
+export default {
+  // other rules...
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
+  },
+}
+```
 
-## Функциональность
-![Функциональность](diagrams/functionality.png)
-
-### Сбор данных
-- **Ручной ввод**: формы и загрузка файлов
-- **Поддерживаемые форматы**:
-  - PDF, Excel, XAML
-  - JSON через API
-- **Автоматизированный сбор**:
-  - WebHook для автоматической загрузки
-  - Встроенный парсер (Crawler)
-  - REST API интеграции
-
-### Анализ данных
-- **ML Audit**:
-  - Экспресс-аналитика компаний
-  - Обнаружение аномалий
-  - Валидация данных
-  - Статистический анализ
-- **Визуализация**:
-  - Интерактивные графики
-  - Панели мониторинга
-  - Отчеты в реальном времени
-
-## Технологии
-
-- **Frontend**: React (TypeScript)
-- **Backend**: ASP (C#), FastApi (Python)
-- **Database**: Postgres
-- **ML**: Интеграция с ML-библиотеками
-
-## Установка и запуск
-
-[Здесь будет инструкция по установке и настройке системы]
+- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
+- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
