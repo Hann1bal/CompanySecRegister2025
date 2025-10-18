@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 from typing import Optional, List, Dict, Any
 from datetime import date, datetime
 from decimal import Decimal
@@ -65,3 +65,5 @@ class CompanyListResponse(BaseModel):
 class PaginatedResponse(BaseModel):
     page: int = 1
     size: int = 50
+
+### Rusprofile
