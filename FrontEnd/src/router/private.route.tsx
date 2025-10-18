@@ -5,6 +5,7 @@ import CompaniesListPage from "../Pages/CompanyList";
 import CompanyInfo from "../Pages/CompanyInfo";
 import IndustryGraph from "../Pages/IndustryGraph";
 import CompanyAnalyticsPage from "../Pages/CompanyAnalysisPage";
+import MoscowIndustryAnalytics from "../Pages/MoscowIndustryAnalytics";
 
 const AppRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const AppRoutes = () => {
       <Route path="/company/:inn" element={<CompanyInfo/>} />
       <Route path="/graph" element={<IndustryGraph/>}/>
       <Route path="/analytics" element={<CompanyAnalyticsPage/>}/>
+      <Route path="/mskanalytics" element={<MoscowIndustryAnalytics/>}/>
       <Route path="*" element={<AuthPage />} /> {/* fallback */}
     </Routes>
   );
