@@ -6,7 +6,7 @@ export default defineConfig(async () => {
   return {
     plugins: [react()],
     server: {
-      https: {
+      http: {
         port: 3000
       },
     },
