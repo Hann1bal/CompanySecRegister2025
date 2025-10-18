@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, TextInput } from "flowbite-react";
 import { FaEdit } from "react-icons/fa";
 
@@ -20,7 +20,6 @@ const initialCompanyData = {
 };
 
 const CompanyInfo: React.FC = () => {
-  const { inn } = useParams();
   const [companyData, setCompanyData] = useState(initialCompanyData);
   const [editingField, setEditingField] = useState<string | null>(null);
   const [tempValue, setTempValue] = useState("");

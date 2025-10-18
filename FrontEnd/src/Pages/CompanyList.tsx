@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Table, TextInput, Button } from "flowbite-react";
 import AddCompModal from "../Components/Modals/AddCompModal";
 import { useNavigate } from "react-router";
+import ImportFromFile from "../Components/Modals/ImportFromFile";
 
 interface Company {
   inn: string;
@@ -11,21 +12,21 @@ interface Company {
   address: string;
 }
 
-const companyData = {
-  ИНН: "7701234567",
-  "Наименование организации": "ООО ТехПром",
-  "Полное наименование организации":
-    "Общество с ограниченной ответственностью ТехПром",
-  Статус: "Действующая",
-  "Юридический адрес": "г. Москва, ул. Тверская, д. 10",
-  "Адрес производства": "г. Москва, ул. Ленина, д. 15",
-  "Основная отрасль": "Машиностроение",
-  "Подотрасль (Основная)": "Промышленное оборудование",
-  "Дата регистрации": "15.03.2012",
-  Руководитель: "Иванов И.И.",
-  "Электронная почта": "info@techprom.ru",
-  Сайт: "https://techprom.ru",
-};
+// const companyData = {
+//   ИНН: "7701234567",
+//   "Наименование организации": "ООО ТехПром",
+//   "Полное наименование организации":
+//     "Общество с ограниченной ответственностью ТехПром",
+//   Статус: "Действующая",
+//   "Юридический адрес": "г. Москва, ул. Тверская, д. 10",
+//   "Адрес производства": "г. Москва, ул. Ленина, д. 15",
+//   "Основная отрасль": "Машиностроение",
+//   "Подотрасль (Основная)": "Промышленное оборудование",
+//   "Дата регистрации": "15.03.2012",
+//   Руководитель: "Иванов И.И.",
+//   "Электронная почта": "info@techprom.ru",
+//   Сайт: "https://techprom.ru",
+// };
 
 const initialData: Company[] = [
   {
@@ -46,6 +47,7 @@ const initialData: Company[] = [
 
 const CompaniesListPage: React.FC = () => {
   const [addCompanyModal, setaddCompanyModal] = useState<boolean>(false);
+  const [openModal, setopenModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const [filters, setFilters] = useState({
@@ -80,6 +82,13 @@ const CompaniesListPage: React.FC = () => {
           onClick={() => setaddCompanyModal(true)}
         >
           + Добавить организацию
+        </Button>
+        <Button
+          color="success"
+          className="shadow-md hover:scale-105 transition-transform duration-200"
+          onClick={() => setopenModal(true)}
+        >
+          + Импорт из файла
         </Button>
       </div>
 
@@ -173,6 +182,12 @@ const CompaniesListPage: React.FC = () => {
         show={addCompanyModal}
         switchState={setaddCompanyModal}
       ></AddCompModal>
+      <ImportFromFile
+        show={openModal}
+        switchState={setaddCompanyModal}
+      >
+        
+      </ImportFromFile>
     </div>
   );
 };

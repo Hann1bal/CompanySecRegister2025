@@ -4,23 +4,23 @@ import { Link } from "react-router-dom";
 
 const RegPage = () => {
 
-    const [firstName, setFirstName] = useState<string>("")
-    const [secondName, setsecondName] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [passwordConfirm, setPasswordConfirm] = useState<string>("")
+  const [firstName, setFirstName] = useState<string>("")
+  const [_, setsecondName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordConfirm, setPasswordConfirm] = useState<string>("")
 
-    const onSubmit = () => {
-        console.log(
-          "first",
-          firstName,
-          firstName,
-          email,
-          password,
-          passwordConfirm
-        );
-        
-    }
+  const onSubmit = () => {
+    console.log(
+      "first",
+      firstName,
+      firstName,
+      email,
+      password,
+      passwordConfirm
+    );
+
+  }
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 via-white to-green-100">
       <Card className="w-full max-w-md shadow-xl border border-gray-200 p-6">
@@ -95,7 +95,7 @@ const RegPage = () => {
           <div className="text-center">
             <span className="text-gray-600">Уже есть аккаунт?</span>{" "}
             <Link to="/auth">
-              <Button color="light" className="w-full mt-2">
+              <Button color="light" className="w-full mt-2" onClick={onSubmit}>
                 Войти в систему
               </Button>
             </Link>

@@ -3377,7 +3377,7 @@
     ]
   },
   "packageFolders": {
-    "/home/jafarabat/.nuget/packages/": {}
+    "/home/andrey/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
@@ -3389,13 +3389,12 @@
       "outputPath": "/home/andrey/Hahato/CompanySecRegister2025/Backend/Innts/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/jafarabat/.nuget/NuGet/NuGet.Config"
+        "/home/andrey/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3472,7 +3471,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.109/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

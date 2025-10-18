@@ -5,7 +5,7 @@ namespace Innts.Model.Dto;
 public class CompanyFinderDto
 {
     [JsonPropertyName("inn")]
-    public long? INN { get; set; }
+    public string? INN { get; set; }
     [JsonPropertyName("name")]
     public string? CompanyName { get; set; }
 }

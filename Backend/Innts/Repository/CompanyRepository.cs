@@ -27,7 +27,7 @@ public class CompanyRepository : IBaseRepository<CompanyModel>
         await context.Companies.AddRangeAsync(item);
         await context.SaveChangesAsync();
     }
-    public async Task<CompanyModel> FindById(long id, string ids)
+    public async Task<CompanyModel> FindById(string id, string ids)
     {
         await using var context = await _factory.CreateDbContextAsync();
         return await context.Companies.FirstAsync(x => x.inn == id);

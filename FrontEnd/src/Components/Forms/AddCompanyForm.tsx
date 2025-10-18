@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Label, TextInput, Select, Button } from "flowbite-react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 

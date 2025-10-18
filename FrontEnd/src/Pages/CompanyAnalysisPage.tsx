@@ -1,10 +1,7 @@
-import React, { useState } from "react";
 import { Button, Card } from "flowbite-react";
 import ReactECharts from "echarts-for-react";
 
 export default function CompanyAnalyticsPage() {
-  const [reportType, setReportType] = useState("finance");
-
   // 💰 Данные для финансовых отчётов
   const financeData = {
     revenue: { years: ["2020", "2021", "2022", "2023", "2024"], data: [4200, 5100, 6000, 7200, 8500] },

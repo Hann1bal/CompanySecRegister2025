@@ -3,12 +3,14 @@ namespace Innts.Models;
 public class CompanyModel : IBaseModel
 {
     public long Id { get; set; }
-    public int inn { get; set; }
+    public string inn { get; set; }
     public string orgName { get; set; } = String.Empty;
     public string orgFullName { get; set; } = String.Empty;
     public string status { get; set; } = String.Empty;
     public string legalAddress { get; set; } = String.Empty;
     public string productionAddress { get; set; } = String.Empty;
+    public string director { get; set; } = string.Empty;
+    public string okved_description { get; set; } = string.Empty;
     public string additionalSiteAddress { get; set; } = String.Empty;
     public string industry { get; set; } = String.Empty;
     public string subIndustry { get; set; } = String.Empty;
@@ -110,4 +112,6 @@ public class CompanyModel : IBaseModel
     public int longitude { get; set; }
     public string okrug { get; set; } = String.Empty;
     public string district { get; set; } = String.Empty;
+    public DateTime update_at = DateTime.Now;
+    public DateTime create_at = DateTime.Now;
 }
