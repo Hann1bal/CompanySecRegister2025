@@ -6,6 +6,7 @@ using Innts.Model;
 using Innts.Model.Dto;
 using Innts.Models;
 using Innts.Repository;
+using Innts.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +15,13 @@ namespace Innts.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class DataController(UserManager<CustomUser> userManager, IBaseRepository<CompanyModel> dbRepository, IDbContextFactory<DatabaseContext> dbContext) : ControllerBase
+public class DataController(UserManager<CustomUser> userManager, IBaseRepository<CompanyModel> dbRepository, IDbContextFactory<DatabaseContext> dbContext, IFileService fileService) : ControllerBase
 {
 
     private readonly UserManager<CustomUser> _userManager = userManager;
     private readonly IBaseRepository<CompanyModel> _dbRepository = dbRepository;
     private readonly IDbContextFactory<DatabaseContext> dbContext = dbContext;
+    private readonly IFileService _fileService = fileService;
 
     [HttpPut("{inn}")]
     public async Task<ActionResult> UpdateCompany(string inn, [FromBody] Dictionary<string, object> updateFields)
@@ -147,7 +149,59 @@ public class DataController(UserManager<CustomUser> userManager, IBaseRepository
             throw new InvalidCastException($"Не удалось преобразовать значение '{value}' к типу {targetType.Name}");
         }
     }
+    // Импорт компаний из Excel
+    [HttpPost("import/excel")]
+    public async Task<IActionResult> ImportFromExcel(IFormFile file)
+    {
+        var _context = await dbContext.CreateDbContextAsync();
+        if (file == null || file.Length == 0)
+            return BadRequest("Файл не выбран");
 
+        if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            return BadRequest("Поддерживаются только файлы .xlsx");
+
+        try
+        {
+            using (var stream = file.OpenReadStream())
+            {
+                var result = await _fileService.ImportCompaniesFromExcel(stream);
+
+                if (!result.Success)
+                    return BadRequest(result.Message);
+
+                // Сохранение импортированных данных в БД
+                foreach (var company in result.Data)
+                {
+                    var existing = await _context.Companies
+                        .FirstOrDefaultAsync(c => c.inn == company.inn);
+
+                    if (existing != null)
+                    {
+                        // Обновление существующей компании
+                        _context.Entry(existing).CurrentValues.SetValues(company);
+                    }
+                    else
+                    {
+                        // Добавление новой компании
+                        await _context.Companies.AddAsync(company);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    message = result.Message,
+                    importedCount = result.Data.Count,
+                    errors = result.Errors
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Ошибка при импорте: {ex.Message}");
+        }
+    }
     [HttpPost]
     public async Task<ActionResult> AddCompany([FromBody] CompanyModelDto companyModelDto)
     {
