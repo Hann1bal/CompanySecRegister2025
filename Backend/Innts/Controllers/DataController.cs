@@ -18,7 +18,7 @@ namespace Innts.Controllers;
 public class DataController(IBaseRepository<CompanyModel> dbRepository, IDbContextFactory<DatabaseContext> dbContext, IFileService fileService) : ControllerBase
 {
 
-    //private readonly UserManager<CustomUser> _userManager = userManager;
+    // private readonly UserManager<CustomUser> _userManager = userManager;
     private readonly IBaseRepository<CompanyModel> _dbRepository = dbRepository;
     private readonly IDbContextFactory<DatabaseContext> dbContext = dbContext;
     private readonly IFileService _fileService = fileService;

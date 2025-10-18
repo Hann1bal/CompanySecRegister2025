@@ -30,6 +30,9 @@ mono_crash.*
 Backend/Innts/bin
 Backend/Innts/obj
 
+Backend/Innts/bin/*
+Backend/Innts/obj/*
+
 [Dd]ebug/x86/
 [Dd]ebugPublic/x86/
 [Rr]elease/x86/

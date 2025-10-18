@@ -1,3 +1,5 @@
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Innts.Model.Files;
 using Innts.Models;
 namespace Innts.Services;
@@ -161,33 +163,45 @@ public class FileService : IFileService
 
         try
         {
-            using (var package = new OfficeOpenXml.ExcelPackage(fileStream))
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(fileStream, false))
             {
-                var worksheet = package.Workbook.Worksheets[0];
-                var rowCount = worksheet.Dimension.Rows;
+                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
 
-                for (int row = 2; row <= rowCount; row++) // Пропускаем заголовок
+                // Получаем SharedStringTable для чтения текстовых значений
+                SharedStringTable sharedStringTable = workbookPart.SharedStringTablePart?.SharedStringTable;
+
+                var rows = sheetData.Elements<Row>().Skip(1); // Пропускаем заголовок
+
+                foreach (Row row in rows)
                 {
                     try
                     {
+                        var cells = row.Elements<Cell>().ToArray();
+
                         var company = new CompanyModel
                         {
-                            inn = worksheet.Cells[row, 1].Value.ToString(),
-                            orgName = worksheet.Cells[row, 2].Value?.ToString() ?? "",
-                            orgFullName = worksheet.Cells[row, 3].Value?.ToString() ?? "",
-                            status = worksheet.Cells[row, 4].Value?.ToString() ?? "",
-                            legalAddress = worksheet.Cells[row, 5].Value?.ToString() ?? "",
-                            mainOkved = worksheet.Cells[row, 6].Value?.ToString() ?? "",
-                            head = worksheet.Cells[row, 7].Value?.ToString() ?? "",
-                            email = worksheet.Cells[row, 8].Value?.ToString() ?? "",
-                            website = worksheet.Cells[row, 9].Value?.ToString() ?? ""
+                            inn = GetCellValue(cells.Length > 0 ? cells[0] : null, sharedStringTable),
+                            orgName = GetCellValue(cells.Length > 1 ? cells[1] : null, sharedStringTable) ?? "",
+                            orgFullName = GetCellValue(cells.Length > 2 ? cells[2] : null, sharedStringTable) ?? "",
+                            status = GetCellValue(cells.Length > 3 ? cells[3] : null, sharedStringTable) ?? "",
+                            legalAddress = GetCellValue(cells.Length > 4 ? cells[4] : null, sharedStringTable) ?? "",
+                            mainOkved = GetCellValue(cells.Length > 5 ? cells[5] : null, sharedStringTable) ?? "",
+                            head = GetCellValue(cells.Length > 6 ? cells[6] : null, sharedStringTable) ?? "",
+                            email = GetCellValue(cells.Length > 7 ? cells[7] : null, sharedStringTable) ?? "",
+                            website = GetCellValue(cells.Length > 8 ? cells[8] : null, sharedStringTable) ?? ""
                         };
 
-                        result.Data.Add(company);
+                        // Проверяем, что ИНН не пустой (базовая валидация)
+                        if (!string.IsNullOrEmpty(company.inn))
+                        {
+                            result.Data.Add(company);
+                        }
                     }
                     catch (Exception ex)
                     {
-                        result.Errors.Add($"Ошибка в строке {row}: {ex.Message}");
+                        result.Errors.Add($"Ошибка в строке {row.RowIndex}: {ex.Message}");
                     }
                 }
 
@@ -202,6 +216,29 @@ public class FileService : IFileService
         }
 
         return result;
+    }
+
+    // Вспомогательный метод для получения значения ячейки
+    private string GetCellValue(Cell cell, SharedStringTable sharedStringTable)
+    {
+        if (cell == null || cell.CellValue == null)
+            return string.Empty;
+
+        string cellValue = cell.CellValue.Text;
+
+        if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+        {
+            // Если это shared string, получаем значение из таблицы
+            if (int.TryParse(cellValue, out int index) && sharedStringTable != null)
+            {
+                if (index >= 0 && index < sharedStringTable.Elements<SharedStringItem>().Count())
+                {
+                    return sharedStringTable.ElementAt(index).InnerText;
+                }
+            }
+        }
+
+        return cellValue;
     }
 
     public Task<ImportResult<CompanyModel>> ImportCompaniesFromPdf(Stream fileStream)

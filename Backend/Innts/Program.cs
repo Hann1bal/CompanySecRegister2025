@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using System.Text;
 using Innts.Context;
+using Innts.Models;
+using Innts.Repository;
 using Innts.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Innts.Repository;     // если CompanyRepository там
@@ -41,7 +43,6 @@ builder.Services.AddHttpClient("httos", config =>
     config.DefaultRequestHeaders.Clear();
 });
 builder.Services.AddScoped<IFileService, FileService>();
-
 builder.Services.AddSingleton<HttpClientService>();
 builder.Services.AddSingleton<TestService>();
 builder.Services.AddDbContextFactory<DatabaseContext>
