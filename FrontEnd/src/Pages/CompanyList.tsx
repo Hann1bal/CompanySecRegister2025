@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Table, TextInput, Button } from "flowbite-react";
 import AddCompModal from "../Components/Modals/AddCompModal";
+import { useNavigate } from "react-router";
 
 interface Company {
   inn: string;
@@ -9,6 +10,22 @@ interface Company {
   status: string;
   address: string;
 }
+
+const companyData = {
+  ИНН: "7701234567",
+  "Наименование организации": "ООО ТехПром",
+  "Полное наименование организации":
+    "Общество с ограниченной ответственностью ТехПром",
+  Статус: "Действующая",
+  "Юридический адрес": "г. Москва, ул. Тверская, д. 10",
+  "Адрес производства": "г. Москва, ул. Ленина, д. 15",
+  "Основная отрасль": "Машиностроение",
+  "Подотрасль (Основная)": "Промышленное оборудование",
+  "Дата регистрации": "15.03.2012",
+  Руководитель: "Иванов И.И.",
+  "Электронная почта": "info@techprom.ru",
+  Сайт: "https://techprom.ru",
+};
 
 const initialData: Company[] = [
   {
@@ -29,6 +46,7 @@ const initialData: Company[] = [
 
 const CompaniesListPage: React.FC = () => {
   const [addCompanyModal, setaddCompanyModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const [filters, setFilters] = useState({
     inn: "",
@@ -141,6 +159,7 @@ const CompaniesListPage: React.FC = () => {
                     size="sm"
                     pill
                     className="shadow-md hover:scale-105 transition-transform duration-200"
+                    onClick={() => navigate(`/company/${company.inn}`)}
                   >
                     Подробнее
                   </Button>
@@ -150,7 +169,10 @@ const CompaniesListPage: React.FC = () => {
           </Table.Body>
         </Table>
       </div>
-      <AddCompModal show={addCompanyModal} switchState={setaddCompanyModal}></AddCompModal>
+      <AddCompModal
+        show={addCompanyModal}
+        switchState={setaddCompanyModal}
+      ></AddCompModal>
     </div>
   );
 };
