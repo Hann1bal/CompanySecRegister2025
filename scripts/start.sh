@@ -3,8 +3,8 @@
 echo "Starting Company API with Docker Compose..."
 
 # Проверка наличия docker-compose
-if ! command -v docker-compose &> /dev/null; then
-    echo "Error: docker-compose not found. Please install Docker and docker-compose."
+if ! command -v docker compose &> /dev/null; then
+    echo "Error: docker compose not found. Please install Docker and docker compose."
     exit 1
 fi
 
