@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bBm73S19tsU=",
+  "dgSpecHash": "pLpTkUfsDMM=",
   "success": true,
-  "projectFilePath": "/home/andrey/Hahato/Innts/Innts.csproj",
+  "projectFilePath": "/home/andrey/Hahato/CompanySecRegister2025/Backend/Innts/Innts.csproj",
   "expectedPackageFiles": [
     "/home/andrey/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/andrey/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/9.0.10/microsoft.aspnetcore.authentication.jwtbearer.9.0.10.nupkg.sha512",

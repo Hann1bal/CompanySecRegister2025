@@ -39,6 +39,7 @@ builder.Services.AddHttpClient("httos", config =>
     config.DefaultRequestHeaders.Clear();
 });
 builder.Services.AddSingleton<HttpClientService>();
+builder.Services.AddSingleton<TestService>();
 builder.Services.AddDbContextFactory<DatabaseContext>
 (
     optionsBuilder =>
@@ -56,7 +57,8 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+})
+.AddJwtBearer(options =>
 {
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
@@ -104,7 +106,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
-
+app.MapOpenApi();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
