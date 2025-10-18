@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Innts.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Innts.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20251018223212_test3")]
+    partial class test3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,109 +144,125 @@ namespace Innts.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("additionalCoords")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("additionalSiteAddress")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("avgSalaryMoscow2022")
+                    b.Property<int>("avgSalaryMoscow2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("avgSalaryMoscow2023")
+                    b.Property<int>("avgSalaryMoscow2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("avgSalaryMoscow2024")
+                    b.Property<int>("avgSalaryMoscow2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("avgSalaryTotal2022")
+                    b.Property<int>("avgSalaryTotal2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("avgSalaryTotal2023")
+                    b.Property<int>("avgSalaryTotal2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("avgSalaryTotal2024")
+                    b.Property<int>("avgSalaryTotal2024")
                         .HasColumnType("integer");
 
                     b.Property<string>("capacityUtilization")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("director")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("district")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("email")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("emergencyContact")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("excise2022")
+                    b.Property<int>("excise2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("excise2023")
+                    b.Property<int>("excise2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("excise2024")
+                    b.Property<int>("excise2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("export2022")
+                    b.Property<int>("export2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("export2023")
+                    b.Property<int>("export2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("export2024")
+                    b.Property<int>("export2024")
                         .HasColumnType("integer");
 
                     b.Property<string>("exportCountries")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("exportPrevYear")
+                    b.Property<int>("exportPrevYear")
                         .HasColumnType("integer");
 
                     b.Property<string>("hasExport")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("hasGovOrder")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("head")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("industry")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("inn")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("investMoscow2022")
+                    b.Property<int>("investMoscow2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("investMoscow2023")
+                    b.Property<int>("investMoscow2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("investMoscow2024")
+                    b.Property<int>("investMoscow2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("landArea")
+                    b.Property<int>("landArea")
                         .HasColumnType("integer");
 
                     b.Property<string>("landCadastral")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("landOwner")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("landOwnership")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("landUse")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("latitude")
+                    b.Property<int>("latitude")
                         .HasColumnType("integer");
 
                     b.Property<string>("legalAddress")
@@ -251,45 +270,57 @@ namespace Innts.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("legalCoords")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("longitude")
+                    b.Property<int>("longitude")
                         .HasColumnType("integer");
 
                     b.Property<string>("mainOkved")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("mainOkvedActivity")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("managementContacts")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("okrug")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("oksArea")
+                    b.Property<int>("oksArea")
                         .HasColumnType("integer");
 
                     b.Property<string>("oksCadastral")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("oksOwner")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("oksOwnership")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("oksType")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("oksUse")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("okved_description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("orgContact")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("orgFullName")
@@ -300,100 +331,112 @@ namespace Innts.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("parentOrgInn")
+                    b.Property<int>("parentOrgInn")
                         .HasColumnType("integer");
 
                     b.Property<string>("parentOrgName")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("payrollMoscow2022")
+                    b.Property<int>("payrollMoscow2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("payrollMoscow2023")
+                    b.Property<int>("payrollMoscow2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("payrollMoscow2024")
+                    b.Property<int>("payrollMoscow2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("payrollTotal2022")
+                    b.Property<int>("payrollTotal2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("payrollTotal2023")
+                    b.Property<int>("payrollTotal2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("payrollTotal2024")
+                    b.Property<int>("payrollTotal2024")
                         .HasColumnType("integer");
 
                     b.Property<string>("productCatalog")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("productNames")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("productOkpd2")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("productSegments")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("productionAddress")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("productionArea")
+                    b.Property<int>("productionArea")
                         .HasColumnType("integer");
 
                     b.Property<string>("productionCoords")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("productionOkved")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("profit2022")
+                    b.Property<int>("profit2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("profit2023")
+                    b.Property<int>("profit2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("profit2024")
+                    b.Property<int>("profit2024")
                         .HasColumnType("integer");
 
                     b.Property<string>("registrationDate")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("revenue2022")
+                    b.Property<int>("revenue2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("revenue2023")
+                    b.Property<int>("revenue2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("revenue2024")
+                    b.Property<int>("revenue2024")
                         .HasColumnType("integer");
 
                     b.Property<string>("smeStatus")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("specialStatus")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("staffMoscow2022")
+                    b.Property<int>("staffMoscow2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("staffMoscow2023")
+                    b.Property<int>("staffMoscow2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("staffMoscow2024")
+                    b.Property<int>("staffMoscow2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("staffTotal2022")
+                    b.Property<int>("staffTotal2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("staffTotal2023")
+                    b.Property<int>("staffTotal2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("staffTotal2024")
+                    b.Property<int>("staffTotal2024")
                         .HasColumnType("integer");
 
                     b.Property<string>("standardizedProduct")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("status")
@@ -401,75 +444,78 @@ namespace Innts.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("subIndustry")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("supportMeasures")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("taxLand2022")
+                    b.Property<int>("taxLand2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxLand2023")
+                    b.Property<int>("taxLand2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxLand2024")
+                    b.Property<int>("taxLand2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxNdfl2022")
+                    b.Property<int>("taxNdfl2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxNdfl2023")
+                    b.Property<int>("taxNdfl2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxNdfl2024")
+                    b.Property<int>("taxNdfl2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxOther2022")
+                    b.Property<int>("taxOther2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxOther2023")
+                    b.Property<int>("taxOther2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxOther2024")
+                    b.Property<int>("taxOther2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxProfit2022")
+                    b.Property<int>("taxProfit2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxProfit2023")
+                    b.Property<int>("taxProfit2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxProfit2024")
+                    b.Property<int>("taxProfit2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxProperty2022")
+                    b.Property<int>("taxProperty2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxProperty2023")
+                    b.Property<int>("taxProperty2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxProperty2024")
+                    b.Property<int>("taxProperty2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxTotal2022")
+                    b.Property<int>("taxTotal2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxTotal2023")
+                    b.Property<int>("taxTotal2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxTotal2024")
+                    b.Property<int>("taxTotal2024")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxTransport2022")
+                    b.Property<int>("taxTransport2022")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxTransport2023")
+                    b.Property<int>("taxTransport2023")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("taxTransport2024")
+                    b.Property<int>("taxTransport2024")
                         .HasColumnType("integer");
 
                     b.Property<string>("website")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

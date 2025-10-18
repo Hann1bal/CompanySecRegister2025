@@ -1,39 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, TextInput, Button } from "flowbite-react";
 import AddCompModal from "../Components/Modals/AddCompModal";
-import { useNavigate } from "react-router";
 import ImportFromFile from "../Components/Modals/ImportFromFile";
-
-interface Company {
-  inn: string;
-  orgName: string;
-  orgFullName: string;
-  status: string;
-  address: string;
-}
-
-const initialData: Company[] = [
-  {
-    inn: "7701234567",
-    orgName: "ООО ТехПром",
-    orgFullName: "Общество с ограниченной ответственностью ТехПром",
-    status: "Действующая",
-    address: "г. Москва, ул. Тверская, д. 10",
-  },
-  {
-    inn: "7723456789",
-    orgName: "АО МосЭнерго",
-    orgFullName: "Акционерное общество Московская Энергия",
-    status: "Действующая",
-    address: "г. Москва, ул. Ленина, д. 15",
-  },
-];
+import { useNavigate } from "react-router";
+import { useStores } from "../context/root-store-context";
+import { observer } from "mobx-react-lite";
 
 const CompaniesListPage: React.FC = () => {
-  const [addCompanyModal, setaddCompanyModal] = useState<boolean>(false);
-  const [openModal, setopenModal] = useState<boolean>(false);
+  const {
+    company: { data, getData },
+  } = useStores();
+
+  const [addCompanyModal, setAddCompanyModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
+  // --- Фильтры ---
   const [filters, setFilters] = useState({
     inn: "",
     orgName: "",
@@ -43,22 +25,29 @@ const CompaniesListPage: React.FC = () => {
   });
 
   const handleFilterChange = (key: string, value: string) => {
-    setFilters({ ...filters, [key]: value });
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const filteredData = initialData.filter((c) =>
-    Object.entries(filters).every(([key, value]) =>
-      c[key as keyof Company].toLowerCase().includes(value.toLowerCase())
-    )
-  );
+  // --- Получение данных ---
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
+  // --- Фильтрация данных ---
+  const filteredData = data.filter((c) => {
+    const matchesInn = c.inn?.toString().toLowerCase().includes(filters.inn.toLowerCase());
+    const matchesName = c.orgName?.toLowerCase().includes(filters.orgName.toLowerCase());
+    const matchesFullName = c.orgFullName?.toLowerCase().includes(filters.orgFullName.toLowerCase());
+    const matchesStatus = c.status?.toLowerCase().includes(filters.status.toLowerCase());
+    const matchesAddress = c.legalAddress?.toLowerCase().includes(filters.address.toLowerCase());
+    return matchesInn && matchesName && matchesFullName && matchesStatus && matchesAddress;
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       {/* Заголовок и кнопки */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Список Московских Компаний
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-800">Список Московских Компаний</h1>
 
         <div className="flex gap-3">
           <Button
@@ -72,7 +61,7 @@ const CompaniesListPage: React.FC = () => {
           <Button
             color="success"
             className="shadow-md hover:scale-105 transition-transform duration-200"
-            onClick={() => setopenModal(true)}
+            onClick={() => setOpenModal(true)}
           >
             + Импорт из файла
           </Button>
@@ -80,7 +69,7 @@ const CompaniesListPage: React.FC = () => {
           <Button
             color="success"
             className="shadow-md hover:scale-105 transition-transform duration-200"
-            onClick={() => setaddCompanyModal(true)}
+            onClick={() => setAddCompanyModal(true)}
           >
             + Добавить организацию
           </Button>
@@ -120,9 +109,7 @@ const CompaniesListPage: React.FC = () => {
                 <TextInput
                   placeholder="Поиск..."
                   value={filters.orgFullName}
-                  onChange={(e) =>
-                    handleFilterChange("orgFullName", e.target.value)
-                  }
+                  onChange={(e) => handleFilterChange("orgFullName", e.target.value)}
                 />
               </Table.Cell>
               <Table.Cell>
@@ -143,41 +130,43 @@ const CompaniesListPage: React.FC = () => {
             </Table.Row>
 
             {/* Данные */}
-            {filteredData.map((company) => (
-              <Table.Row
-                key={company.inn}
-                className="bg-white hover:bg-gray-50"
-              >
-                <Table.Cell>{company.inn}</Table.Cell>
-                <Table.Cell>{company.orgName}</Table.Cell>
-                <Table.Cell>{company.orgFullName}</Table.Cell>
-                <Table.Cell>{company.status}</Table.Cell>
-                <Table.Cell>{company.address}</Table.Cell>
-                <Table.Cell>
-                  <Button
-                    color="blue"
-                    size="sm"
-                    pill
-                    className="shadow-md hover:scale-105 transition-transform duration-200"
-                    onClick={() => navigate(`/company/${company.inn}`)}
-                  >
-                    Подробнее
-                  </Button>
+            {filteredData.length > 0 ? (
+              filteredData.map((company) => (
+                <Table.Row key={company.orgFullName} className="bg-white hover:bg-gray-50">
+                  <Table.Cell>{company.orgFullName}</Table.Cell>
+                  <Table.Cell>{company.orgName}</Table.Cell>
+                  <Table.Cell>-</Table.Cell>
+                  <Table.Cell>{company.status}</Table.Cell>
+                  <Table.Cell>{company.legalAddress}</Table.Cell>
+                  <Table.Cell>
+                    <Button
+                      color="blue"
+                      size="sm"
+                      pill
+                      className="shadow-md hover:scale-105 transition-transform duration-200"
+                      onClick={() => navigate(`/company/${company.orgFullName}`, {state: company.orgFullName})}
+                    >
+                      Подробнее
+                    </Button>
+                  </Table.Cell>
+                </Table.Row>
+              ))
+            ) : (
+              <Table.Row>
+                <Table.Cell colSpan={6} className="text-center text-gray-500 py-6">
+                  Компаний не найдено
                 </Table.Cell>
               </Table.Row>
-            ))}
+            )}
           </Table.Body>
         </Table>
       </div>
 
       {/* Модальные окна */}
-      <AddCompModal
-        show={addCompanyModal}
-        switchState={setaddCompanyModal}
-      />
-      <ImportFromFile show={openModal} switchState={setopenModal} />
+      <AddCompModal show={addCompanyModal} switchState={setAddCompanyModal} />
+      <ImportFromFile show={openModal} switchState={setOpenModal} />
     </div>
   );
 };
 
-export default CompaniesListPage;
+export default observer(CompaniesListPage);

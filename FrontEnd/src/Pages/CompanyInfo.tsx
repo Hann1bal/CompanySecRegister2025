@@ -1,157 +1,194 @@
-import React, { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useMemo, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { Button, TextInput } from "flowbite-react";
 import { FaEdit, FaSearch } from "react-icons/fa";
+import { useStores } from "../context/root-store-context";
+import { observer } from "mobx-react-lite";
 
-const initialCompanyData = {
-  ИНН: "7701234567",
-  "Наименование организации": "ООО ТехПром",
-  "Полное наименование организации": "Общество с ограниченной ответственностью ТехПром",
-  Статус: "Действующая",
-  "Юридический адрес": "г. Москва, ул. Тверская, д. 10",
-  "Адрес производства": "г. Москва, ул. Ленина, д. 15",
-  "Адрес дополнительной площадки": "",
-  "Основная отрасль": "Машиностроение",
-  "Подотрасль (Основная)": "Промышленное оборудование",
-  "Основной ОКВЭД": "",
-  "Вид деятельности по основному ОКВЭД": "",
-  "Производственный ОКВЭД": "",
-  "Дата регистрации": "15.03.2012",
-  Руководитель: "Иванов И.И.",
-  "Головная организация": "",
-  "ИНН головной организации": "",
-  "Контактные данные руководства": "",
-  "Контакт сотрудника организации": "",
-  "Контактные данные ответственного по ЧС": "",
-  Сайт: "https://techprom.ru",
-  "Электронная почта": "info@techprom.ru",
-  "Данные об оказанных мерах поддержки": "",
-  "Наличие особого статуса": "",
-  "Статус МСП": "",
-  "Выручка предприятия, тыс. руб. 2022": "",
-  "Выручка предприятия, тыс. руб. 2023": "",
-  "Выручка предприятия, тыс. руб. 2024": "",
-  "Чистая прибыль (убыток), тыс. руб. 2022": "",
-  "Чистая прибыль (убыток), тыс. руб. 2023": "",
-  "Чистая прибыль (убыток), тыс. руб. 2024": "",
-  "Среднесписочная численность персонала (всего по компании), чел 2022": "",
-  "Среднесписочная численность персонала (всего по компании), чел 2023": "",
-  "Среднесписочная численность персонала (всего по компании), чел 2024": "",
-  "Среднесписочная численность персонала, работающего в Москве, чел 2022": "",
-  "Среднесписочная численность персонала, работающего в Москве, чел 2023": "",
-  "Среднесписочная численность персонала, работающего в Москве, чел 2024": "",
-  "Фонд оплаты труда всех сотрудников организации, тыс. руб 2022": "",
-  "Фонд оплаты труда всех сотрудников организации, тыс. руб 2023": "",
-  "Фонд оплаты труда всех сотрудников организации, тыс. руб 2024": "",
-  "Фонд оплаты труда сотрудников, работающих в Москве, тыс. руб. 2022": "",
-  "Фонд оплаты труда сотрудников, работающих в Москве, тыс. руб. 2023": "",
-  "Фонд оплаты труда сотрудников, работающих в Москве, тыс. руб. 2024": "",
-  "Средняя з.п. всех сотрудников организации, тыс.руб. 2022": "",
-  "Средняя з.п. всех сотрудников организации, тыс.руб. 2023": "",
-  "Средняя з.п. всех сотрудников организации, тыс.руб. 2024": "",
-  "Средняя з.п. сотрудников, работающих в Москве, тыс.руб. 2022": "",
-  "Средняя з.п. сотрудников, работающих в Москве, тыс.руб. 2023": "",
-  "Средняя з.п. сотрудников, работающих в Москве, тыс.руб. 2024": "",
-  "Налоги, уплаченные в бюджет Москвы (без акцизов), тыс.руб. 2022": "",
-  "Налоги, уплаченные в бюджет Москвы (без акцизов), тыс.руб. 2023": "",
-  "Налоги, уплаченные в бюджет Москвы (без акцизов), тыс.руб. 2024": "",
-  "Налог на прибыль, тыс.руб. 2022": "",
-  "Налог на прибыль, тыс.руб. 2023": "",
-  "Налог на прибыль, тыс.руб. 2024": "",
-  "Налог на имущество, тыс.руб. 2022": "",
-  "Налог на имущество, тыс.руб. 2023": "",
-  "Налог на имущество, тыс.руб. 2024": "",
-  "Налог на землю, тыс.руб. 2022": "",
-  "Налог на землю, тыс.руб. 2023": "",
-  "Налог на землю, тыс.руб. 2024": "",
-  "НДФЛ, тыс.руб. 2022": "",
-  "НДФЛ, тыс.руб. 2023": "",
-  "НДФЛ, тыс.руб. 2024": "",
-  "Транспортный налог, тыс.руб. 2022": "",
-  "Транспортный налог, тыс.руб. 2023": "",
-  "Транспортный налог, тыс.руб. 2024": "",
-  "Прочие налоги 2022": "",
-  "Прочие налоги 2023": "",
-  "Прочие налоги 2024": "",
-  "Акцизы, тыс. руб. 2022": "",
-  "Акцизы, тыс. руб. 2023": "",
-  "Акцизы, тыс. руб. 2024": "",
-  "Инвестиции в Мск 2022 тыс. руб.": "",
-  "Инвестиции в Мск 2023 тыс. руб.": "",
-  "Инвестиции в Мск 2024 тыс. руб.": "",
-  "Объем экспорта, тыс. руб. 2022": "",
-  "Объем экспорта, тыс. руб. 2023": "",
-  "Объем экспорта, тыс. руб. 2024": "",
-  "Кадастровый номер ЗУ": "",
-  "Площадь ЗУ": "",
-  "Вид разрешенного использования ЗУ": "",
-  "Вид собственности ЗУ": "",
-  "Собственник ЗУ": "",
-  "Кадастровый номер ОКСа": "",
-  "Площадь ОКСов": "",
-  "Вид разрешенного использования ОКСов": "",
-  "Тип строения и цель использования": "",
-  "Вид собственности ОКСов": "",
-  "Собственник ОКСов": "",
-  "Площадь производственных помещений, кв.м.": "",
-  "Стандартизированная продукция": "",
-  "Название (виды производимой продукции)": "",
-  "Перечень производимой продукции по кодам ОКПД 2": "",
-  "Перечень производимой продукции по типам и сегментам": "",
-  "Каталог продукции": "",
-  "Наличие госзаказа": "",
-  "Уровень загрузки производственных мощностей": "",
-  "Наличие поставок продукции на экспорт": "",
-  "Объем экспорта (млн руб.) за предыдущий календарный год": "",
-  "Перечень государств-импортеров": "",
-  "Координаты юридического адреса": "",
-  "Координаты адреса производства": "",
-  "Координаты адреса дополнительной площадки": "",
-  "Координаты (широта)": "",
-  "Координаты (долгота)": "",
-  Округ: "",
-  Район: "",
+const fieldDictionary: Record<string, string> = {
+  inn: "ИНН",
+  orgName: "Наименование организации",
+  orgFullName: "Полное наименование организации",
+  status: "Статус",
+  legalAddress: "Юридический адрес",
+  productionAddress: "Адрес производства",
+  additionalSiteAddress: "Адрес дополнительной площадки",
+  industry: "Основная отрасль",
+  subIndustry: "Подотрасль (Основная)",
+  mainOkved: "Основной ОКВЭД",
+  mainOkvedActivity: "Вид деятельности по основному ОКВЭД",
+  productionOkved: "Производственный ОКВЭД",
+  registrationDate: "Дата регистрации",
+  head: "Руководитель",
+  parentOrgName: "Головная организация",
+  parentOrgInn: "ИНН головной организации",
+  managementContacts: "Контактные данные руководства",
+  orgContact: "Контакт сотрудника организации",
+  emergencyContact: "Контактные данные ответственного по ЧС",
+  website: "Сайт",
+  email: "Электронная почта",
+  supportMeasures: "Меры поддержки",
+  specialStatus: "Наличие особого статуса",
+  smeStatus: "Статус МСП",
+
+  // Финансы
+  revenue2022: "Выручка, тыс. руб. (2022)",
+  revenue2023: "Выручка, тыс. руб. (2023)",
+  revenue2024: "Выручка, тыс. руб. (2024)",
+  profit2022: "Прибыль, тыс. руб. (2022)",
+  profit2023: "Прибыль, тыс. руб. (2023)",
+  profit2024: "Прибыль, тыс. руб. (2024)",
+
+  // Персонал
+  staffTotal2022: "Численность сотрудников (всего) 2022",
+  staffTotal2023: "Численность сотрудников (всего) 2023",
+  staffTotal2024: "Численность сотрудников (всего) 2024",
+  staffMoscow2022: "Численность в Москве 2022",
+  staffMoscow2023: "Численность в Москве 2023",
+  staffMoscow2024: "Численность в Москве 2024",
+
+  // ФОТ
+  payrollTotal2022: "ФОТ всех сотрудников, тыс. руб. (2022)",
+  payrollTotal2023: "ФОТ всех сотрудников, тыс. руб. (2023)",
+  payrollTotal2024: "ФОТ всех сотрудников, тыс. руб. (2024)",
+  payrollMoscow2022: "ФОТ сотрудников Москвы, тыс. руб. (2022)",
+  payrollMoscow2023: "ФОТ сотрудников Москвы, тыс. руб. (2023)",
+  payrollMoscow2024: "ФОТ сотрудников Москвы, тыс. руб. (2024)",
+
+  // Средняя зарплата
+  avgSalaryTotal2022: "Средняя зарплата, тыс. руб. (2022)",
+  avgSalaryTotal2023: "Средняя зарплата, тыс. руб. (2023)",
+  avgSalaryTotal2024: "Средняя зарплата, тыс. руб. (2024)",
+  avgSalaryMoscow2022: "Средняя зарплата (Москва) 2022",
+  avgSalaryMoscow2023: "Средняя зарплата (Москва) 2023",
+  avgSalaryMoscow2024: "Средняя зарплата (Москва) 2024",
+
+  // Налоги
+  taxTotal2022: "Налоги, тыс. руб. (2022)",
+  taxTotal2023: "Налоги, тыс. руб. (2023)",
+  taxTotal2024: "Налоги, тыс. руб. (2024)",
+  taxProfit2022: "Налог на прибыль, тыс. руб. (2022)",
+  taxProfit2023: "Налог на прибыль, тыс. руб. (2023)",
+  taxProfit2024: "Налог на прибыль, тыс. руб. (2024)",
+  taxProperty2022: "Налог на имущество, тыс. руб. (2022)",
+  taxProperty2023: "Налог на имущество, тыс. руб. (2023)",
+  taxProperty2024: "Налог на имущество, тыс. руб. (2024)",
+  taxLand2022: "Налог на землю, тыс. руб. (2022)",
+  taxLand2023: "Налог на землю, тыс. руб. (2023)",
+  taxLand2024: "Налог на землю, тыс. руб. (2024)",
+  taxNdfl2022: "НДФЛ, тыс. руб. (2022)",
+  taxNdfl2023: "НДФЛ, тыс. руб. (2023)",
+  taxNdfl2024: "НДФЛ, тыс. руб. (2024)",
+  taxTransport2022: "Транспортный налог, тыс. руб. (2022)",
+  taxTransport2023: "Транспортный налог, тыс. руб. (2023)",
+  taxTransport2024: "Транспортный налог, тыс. руб. (2024)",
+  taxOther2022: "Прочие налоги, тыс. руб. (2022)",
+  taxOther2023: "Прочие налоги, тыс. руб. (2023)",
+  taxOther2024: "Прочие налоги, тыс. руб. (2024)",
+
+  // Инвестиции и экспорт
+  excise2022: "Акцизы, тыс. руб. (2022)",
+  excise2023: "Акцизы, тыс. руб. (2023)",
+  excise2024: "Акцизы, тыс. руб. (2024)",
+  investMoscow2022: "Инвестиции в Москву, тыс. руб. (2022)",
+  investMoscow2023: "Инвестиции в Москву, тыс. руб. (2023)",
+  investMoscow2024: "Инвестиции в Москву, тыс. руб. (2024)",
+  export2022: "Экспорт, тыс. руб. (2022)",
+  export2023: "Экспорт, тыс. руб. (2023)",
+  export2024: "Экспорт, тыс. руб. (2024)",
+  hasExport: "Наличие экспорта",
+  exportPrevYear: "Экспорт за предыдущий год, тыс. руб.",
+  exportCountries: "Страны-импортёры",
+  // Недвижимость
+  landCadastral: "Кадастровый номер ЗУ",
+  landArea: "Площадь ЗУ, м²",
+  landUse: "Вид разрешённого использования ЗУ",
+  landOwnership: "Форма собственности ЗУ",
+  landOwner: "Собственник ЗУ",
+  oksCadastral: "Кадастровый номер ОКСа",
+  oksArea: "Площадь ОКСов, м²",
+  oksUse: "Вид разрешённого использования ОКСов",
+  oksType: "Тип строения и цель использования",
+  oksOwnership: "Форма собственности ОКСов",
+  oksOwner: "Собственник ОКСов",
+  productionArea: "Площадь производственных помещений, м²",
+
+  // Продукция
+  standardizedProduct: "Стандартизированная продукция",
+  productNames: "Названия продукции",
+  productOkpd2: "Коды ОКПД 2",
+  productSegments: "Типы и сегменты продукции",
+  productCatalog: "Каталог продукции",
+  hasGovOrder: "Наличие госзаказа",
+  capacityUtilization: "Загрузка производственных мощностей",
+
+  // Координаты
+  legalCoords: "Координаты юр. адреса",
+  productionCoords: "Координаты производства",
+  additionalCoords: "Координаты доп. площадки",
+  latitude: "Широта",
+  longitude: "Долгота",
+
+  // География
+  okrug: "Округ",
+  district: "Район",
 };
 
-
 const CompanyInfo: React.FC = () => {
-  const [companyData, setCompanyData] = useState(initialCompanyData);
+  const { inn } = useParams<{ inn: string }>();
+  const {
+    company: { currentCompany, getCompanyByInn, updateCompanyField },
+  } = useStores();
+
   const [editingField, setEditingField] = useState<string | null>(null);
   const [tempValue, setTempValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (inn) getCompanyByInn(inn);
+  }, [inn, getCompanyByInn]);
+
+  const handleCancel = () => setEditingField(null);
 
   const handleEdit = (key: string, value: string) => {
     setEditingField(key);
     setTempValue(value);
   };
 
-  const handleSave = (key: string) => {
-    setCompanyData({ ...companyData, [key]: tempValue });
+  const handleSave = async (key: string) => {
+    if (!inn) return;
+    await updateCompanyField(inn, key, tempValue);
     setEditingField(null);
   };
 
-  const handleCancel = () => setEditingField(null);
-
-  /** Фильтрация данных по поисковому запросу */
   const filteredData = useMemo(() => {
-    if (!searchQuery.trim()) return Object.entries(companyData);
+    if (!currentCompany) return [];
+    const entries = Object.entries(currentCompany);
+    if (!searchQuery.trim()) return entries;
+
     const query = searchQuery.toLowerCase();
-    return Object.entries(companyData).filter(
-      ([key, value]) =>
-        key.toLowerCase().includes(query) ||
-        String(value).toLowerCase().includes(query)
+
+    return entries.filter(([key, value]) => {
+      const translatedKey = fieldDictionary[key]?.toLowerCase() || key.toLowerCase();
+      const stringValue = String(value ?? "").toLowerCase();
+
+      return translatedKey.includes(query) || stringValue.includes(query);
+    });
+  }, [currentCompany, searchQuery]);
+
+  if (!currentCompany || !Object.keys(currentCompany).length)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500 text-lg">
+        Компания не найдена или данные загружаются...
+      </div>
     );
-  }, [companyData, searchQuery]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      {/* Навбар и панель действий */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold text-gray-800 text-center sm:text-left">
           Информация о компании —{" "}
-          <span className="text-blue-600">
-            {companyData["Наименование организации"]}
-          </span>
+          <span className="text-blue-600">{currentCompany.orgName}</span>
         </h1>
 
         <div className="flex gap-3">
@@ -173,7 +210,7 @@ const CompanyInfo: React.FC = () => {
         </div>
       </div>
 
-      {/* Поле поиска */}
+      {/* Поиск */}
       <div className="flex items-center gap-3 mb-6">
         <FaSearch className="text-gray-500" />
         <TextInput
@@ -183,27 +220,23 @@ const CompanyInfo: React.FC = () => {
           className="w-96"
         />
         {searchQuery && (
-          <Button
-            color="gray"
-            size="sm"
-            onClick={() => setSearchQuery("")}
-          >
+          <Button color="gray" size="sm" onClick={() => setSearchQuery("")}>
             Очистить
           </Button>
         )}
       </div>
 
-      {/* Секция с данными */}
+      {/* Таблица данных */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <div className="divide-y divide-gray-200">
           {filteredData.map(([key, value]) => (
             <div
               key={key}
-              className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center py-3 group"
+              className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center py-3"
             >
-              <div className="flex items-center gap-2 sm:w-1/3">
-                <span className="font-medium text-gray-600">{key}</span>
-              </div>
+              <span className="font-medium text-gray-600 sm:w-1/3">
+                {fieldDictionary[key] ?? key}
+              </span>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:w-2/3 mt-2 sm:mt-0">
                 {editingField === key ? (
@@ -229,7 +262,7 @@ const CompanyInfo: React.FC = () => {
                 ) : (
                   <>
                     <span className="text-gray-800 break-words">
-                      {value || "-"}
+                      {value ?? "-"}
                     </span>
                     <button
                       className="text-gray-400 hover:text-blue-500 transition ml-2"
@@ -243,7 +276,6 @@ const CompanyInfo: React.FC = () => {
               </div>
             </div>
           ))}
-
           {filteredData.length === 0 && (
             <p className="text-center text-gray-500 py-6">
               Ничего не найдено по запросу «{searchQuery}»
@@ -255,4 +287,4 @@ const CompanyInfo: React.FC = () => {
   );
 };
 
-export default CompanyInfo;
+export default observer(CompanyInfo);

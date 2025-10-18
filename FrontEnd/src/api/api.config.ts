@@ -3,7 +3,7 @@ import axios from "axios";
 export const instance = axios.create({
   // к запросу будет приуепляться cookies
   withCredentials: true,
-  baseURL: "https://localhost:5001",
+  baseURL: "http://localhost:5083",
 });
 
 //https://kb.ai-hippocrates.ru/kbapi

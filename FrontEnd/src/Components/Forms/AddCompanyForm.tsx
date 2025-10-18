@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Label, TextInput, Select, Button } from "flowbite-react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useStores } from "../../context/root-store-context";
+import { ICompany } from "../../Interfaces/ICompany";
 
-interface AddCompanyForm{
-  onCloseModalAction: (state: boolean)=> void;
+interface AddCompanyFormProps {
+  onCloseModalAction: (state: boolean) => void;
 }
 
 const allExtraFields = [
@@ -26,94 +28,22 @@ const allExtraFields = [
   "Данные об оказанных мерах поддержки",
   "Наличие особого статуса",
   "Статус МСП",
-  "Выручка предприятия, тыс. руб. 2022",
-  "Выручка предприятия, тыс. руб. 2023",
-  "Выручка предприятия, тыс. руб. 2024",
-  "Чистая прибыль (убыток), тыс. руб. 2022",
-  "Чистая прибыль (убыток), тыс. руб. 2023",
-  "Чистая прибыль (убыток), тыс. руб. 2024",
-  "Среднесписочная численность персонала (всего по компании), чел 2022",
-  "Среднесписочная численность персонала (всего по компании), чел 2023",
-  "Среднесписочная численность персонала (всего по компании), чел 2024",
-  "Среднесписочная численность персонала, работающего в Москве, чел 2022",
-  "Среднесписочная численность персонала, работающего в Москве, чел 2023",
-  "Среднесписочная численность персонала, работающего в Москве, чел 2024",
-  "Фонд оплаты труда всех сотрудников организации, тыс. руб 2022",
-  "Фонд оплаты труда всех сотрудников организации, тыс. руб 2023",
-  "Фонд оплаты труда всех сотрудников организации, тыс. руб 2024",
-  "Фонд оплаты труда сотрудников, работающих в Москве, тыс. руб. 2022",
-  "Фонд оплаты труда сотрудников, работающих в Москве, тыс. руб. 2023",
-  "Фонд оплаты труда сотрудников, работающих в Москве, тыс. руб. 2024",
-  "Средняя з.п. всех сотрудников организации, тыс.руб. 2022",
-  "Средняя з.п. всех сотрудников организации, тыс.руб. 2023",
-  "Средняя з.п. всех сотрудников организации, тыс.руб. 2024",
-  "Средняя з.п. сотрудников, работающих в Москве, тыс.руб. 2022",
-  "Средняя з.п. сотрудников, работающих в Москве, тыс.руб. 2023",
-  "Средняя з.п. сотрудников, работающих в Москве, тыс.руб. 2024",
-  "Налоги, уплаченные в бюджет Москвы (без акцизов), тыс.руб. 2022",
-  "Налоги, уплаченные в бюджет Москвы (без акцизов), тыс.руб. 2023",
-  "Налоги, уплаченные в бюджет Москвы (без акцизов), тыс.руб. 2024",
-  "Налог на прибыль, тыс.руб. 2022",
-  "Налог на прибыль, тыс.руб. 2023",
-  "Налог на прибыль, тыс.руб. 2024",
-  "Налог на имущество, тыс.руб. 2022",
-  "Налог на имущество, тыс.руб. 2023",
-  "Налог на имущество, тыс.руб. 2024",
-  "Налог на землю, тыс.руб. 2022",
-  "Налог на землю, тыс.руб. 2023",
-  "Налог на землю, тыс.руб. 2024",
-  "НДФЛ, тыс.руб. 2022",
-  "НДФЛ, тыс.руб. 2023",
-  "НДФЛ, тыс.руб. 2024",
-  "Транспортный налог, тыс.руб. 2022",
-  "Транспортный налог, тыс.руб. 2023",
-  "Транспортный налог, тыс.руб. 2024",
-  "Прочие налоги 2022",
-  "Прочие налоги 2023",
-  "Прочие налоги 2024",
-  "Акцизы, тыс. руб. 2022",
-  "Акцизы, тыс. руб. 2023",
-  "Акцизы, тыс. руб. 2024",
-  "Инвестиции в Мск 2022 тыс. руб.",
-  "Инвестиции в Мск 2023 тыс. руб.",
-  "Инвестиции в Мск 2024 тыс. руб.",
-  "Объем экспорта, тыс. руб. 2022",
-  "Объем экспорта, тыс. руб. 2023",
-  "Объем экспорта, тыс. руб. 2024",
-  "Кадастровый номер ЗУ",
-  "Площадь ЗУ",
-  "Вид разрешенного использования ЗУ",
-  "Вид собственности ЗУ",
-  "Собственник ЗУ",
-  "Кадастровый номер ОКСа",
-  "Площадь ОКСов",
-  "Вид разрешенного использования ОКСов",
-  "Тип строения и цель использования",
-  "Вид собственности ОКСов",
-  "Собственник ОКСов",
-  "Площадь производственных помещений, кв.м.",
-  "Стандартизированная продукция",
-  "Название (виды производимой продукции)",
-  "Перечень производимой продукции по кодам ОКПД 2",
-  "Перечень производимой продукции по типам и сегментам",
-  "Каталог продукции",
-  "Наличие госзаказа",
-  "Уровень загрузки производственных мощностей",
-  "Наличие поставок продукции на экспорт",
-  "Объем экспорта (млн руб.) за предыдущий календарный год",
-  "Перечень государств-импортеров",
-  "Координаты юридического адреса",
-  "Координаты адреса производства",
-  "Координаты адреса дополнительной площадки",
-  "Координаты (широта)",
-  "Координаты (долгота)",
-  "Округ",
-  "Район",
 ];
 
+const AddCompanyForm = ({ onCloseModalAction }: AddCompanyFormProps) => {
+  const {
+    company: { createCompany },
+  } = useStores();
 
-const AddCompanyForm = (props: AddCompanyForm) => {
+  // локальное состояние полей
+  const [formData, setFormData] = useState<Record<string, string>>({});
   const [addedFields, setAddedFields] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSelect = (value: string) => {
     if (value && !addedFields.includes(value)) {
@@ -123,23 +53,75 @@ const AddCompanyForm = (props: AddCompanyForm) => {
 
   const handleRemove = (field: string) => {
     setAddedFields(addedFields.filter((f) => f !== field));
+    setFormData((prev) => {
+      const updated = { ...prev };
+      delete updated[field];
+      return updated;
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+      const company: ICompany = {
+        inn: formData["ИНН"] || "",
+        orgName: formData["Наименование организации"] || "",
+        orgFullName: formData["Полное наименование организации"] || "",
+        status: formData["Статус"] || "",
+        legalAddress: formData["Юридический адрес"] || "",
+        productionAddress: formData["Адрес производства"] || "",
+        additionalSiteAddress: formData["Адрес дополнительной площадки"] || "",
+        industry: formData["Основная отрасль"] || "",
+        subIndustry: formData["Подотрасль (Основная)"] || "",
+        mainOkved: formData["Основной ОКВЭД"] || "",
+        mainOkvedActivity:
+          formData["Вид деятельности по основному ОКВЭД"] || "",
+        productionOkved: formData["Производственный ОКВЭД"] || "",
+        registrationDate: formData["Дата регистрации"] || "",
+        head: formData["Руководитель"] || "",
+        parentOrgName: formData["Головная организация"] || "",
+        parentOrgInn: Number(formData["ИНН головной организации"]) || 0,
+        managementContacts: formData["Контактные данные руководства"] || "",
+        orgContact: formData["Контакт сотрудника организации"] || "",
+        emergencyContact:
+          formData["Контактные данные ответственного по ЧС"] || "",
+        website: formData["Сайт"] || "",
+        email: formData["Электронная почта"] || "",
+        supportMeasures:
+          formData["Данные об оказанных мерах поддержки"] || "",
+        specialStatus: formData["Наличие особого статуса"] || "",
+        smeStatus: formData["Статус МСП"] || "",
+      };
+
+      const ok = await createCompany(company);
+
   };
 
   return (
     <div className="w-full max-w-3xl">
-      <form className="flex flex-col gap-5">
-
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+        {/* Обязательные поля */}
         <div>
           <Label htmlFor="inn" value="ИНН *" />
-          <TextInput id="inn" placeholder="Введите ИНН" required />
+          <TextInput
+            id="inn"
+            required
+            placeholder="Введите ИНН"
+            onChange={(e) => handleChange("ИНН", e.target.value)}
+          />
         </div>
 
         <div>
           <Label htmlFor="orgName" value="Наименование организации *" />
           <TextInput
             id="orgName"
-            placeholder="Введите краткое название"
             required
+            placeholder="Введите краткое название"
+            onChange={(e) =>
+              handleChange("Наименование организации", e.target.value)
+            }
           />
         </div>
 
@@ -150,43 +132,54 @@ const AddCompanyForm = (props: AddCompanyForm) => {
           />
           <TextInput
             id="orgFullName"
-            placeholder="Введите полное название"
             required
+            placeholder="Введите полное название"
+            onChange={(e) =>
+              handleChange("Полное наименование организации", e.target.value)
+            }
           />
         </div>
 
         <div>
           <Label htmlFor="status" value="Статус *" />
-          <TextInput id="status" placeholder="Например: Действующая" required />
+          <TextInput
+            id="status"
+            required
+            placeholder="Например: Действующая"
+            onChange={(e) => handleChange("Статус", e.target.value)}
+          />
         </div>
 
         <div>
           <Label htmlFor="address" value="Юридический адрес *" />
-          <TextInput id="address" placeholder="Введите адрес" required />
+          <TextInput
+            id="address"
+            required
+            placeholder="Введите адрес"
+            onChange={(e) => handleChange("Юридический адрес", e.target.value)}
+          />
         </div>
 
-        {addedFields.length > 0 && (
-          <div className="flex flex-col gap-4 mt-2">
-            {addedFields.map((field) => (
-              <div key={field} className="flex items-center gap-2 transition">
-                <div className="flex-1">
-                  <Label htmlFor={field}>{field}</Label>
-                  <TextInput
-                    id={field}
-                    placeholder={`Введите ${field.toLowerCase()}`}
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => handleRemove(field)}
-                  className="text-red-500 hover:text-red-700 transition"
-                >
-                  <AiOutlineCloseCircle size={22} />
-                </button>
-              </div>
-            ))}
+        {/* Дополнительные поля */}
+        {addedFields.map((field) => (
+          <div key={field} className="flex items-center gap-2">
+            <div className="flex-1">
+              <Label htmlFor={field}>{field}</Label>
+              <TextInput
+                id={field}
+                placeholder={`Введите ${field.toLowerCase()}`}
+                onChange={(e) => handleChange(field, e.target.value)}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => handleRemove(field)}
+              className="text-red-500 hover:text-red-700 transition"
+            >
+              <AiOutlineCloseCircle size={22} />
+            </button>
           </div>
-        )}
+        ))}
 
         <div>
           <Label value="Добавить дополнительное поле" />
@@ -203,11 +196,27 @@ const AddCompanyForm = (props: AddCompanyForm) => {
             ))}
           </Select>
         </div>
-        <Label className="mt-5 text-gray-500" value="Поля, отмеченные звездочкой * - обязательны для заполнения" />
+
+        {error && <p className="text-red-600 text-center mt-2">{error}</p>}
+
+        <Label
+          className="mt-5 text-gray-500"
+          value="Поля со * обязательны для заполнения"
+        />
+
         {/* Кнопки */}
         <div className="flex justify-center gap-4 mt-6">
-          <Button onClick={() => props.onCloseModalAction(false)} color="gray">Отмена</Button>
-          <Button color="success">Добавить</Button>
+          <Button
+            type="button"
+            onClick={() => onCloseModalAction(false)}
+            color="gray"
+            disabled={loading}
+          >
+            Отмена
+          </Button>
+          <Button type="submit" color="success" disabled={loading}>
+            {loading ? "Сохранение..." : "Добавить"}
+          </Button>
         </div>
       </form>
     </div>

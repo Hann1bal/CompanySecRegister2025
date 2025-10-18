@@ -182,7 +182,7 @@ public class FileService : IFileService
 
                         var company = new CompanyModel
                         {
-                            inn = GetCellValue(cells.Length > 0 ? cells[0] : null, sharedStringTable),
+                            inn = GetCellValue(cells.Length > 0 ? cells[1] : null, sharedStringTable),
                             orgName = GetCellValue(cells.Length > 1 ? cells[1] : null, sharedStringTable) ?? "",
                             orgFullName = GetCellValue(cells.Length > 2 ? cells[2] : null, sharedStringTable) ?? "",
                             status = GetCellValue(cells.Length > 3 ? cells[3] : null, sharedStringTable) ?? "",
