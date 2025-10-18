@@ -14,11 +14,12 @@ const SECTORS: Sector[] = [
     name: "28 — Машиностроение",
     companies: [
       {
-        id: "7701_techprom",
-        name: "ООО ТехПром",
+        id: "ntc",
+        name: "НТЦ Приводная техника",
         staff: [
-          { id: "stf_1", name: "Иванов И.И.", role: "Генеральный директор" },
-          { id: "stf_2", name: "Петров С.С.", role: "Главный инженер" },
+          { id: "tatneft", name: "Татнефть", role: "" },
+          { id: "rosneft", name: "Роснефть", role: "" },
+          { id: "mosvodokanal", name: "МосВодоКанал", role: "" },
         ],
       },
       {
@@ -26,7 +27,6 @@ const SECTORS: Sector[] = [
         name: "АО МосЭнерго",
         staff: [
           { id: "stf_3", name: "Сидорова А.А.", role: "Директор" },
-
           { id: "stf_4", name: "Кузнецов К.К.", role: "Главный бухгалтер" },
         ],
       },
@@ -98,7 +98,7 @@ export default function IndustryForceGraph() {
             for (const stf of comp.staff) {
               n.push({
                 id: stf.id,
-                name: `${stf.name} (${stf.role})`,
+                name: `${stf.name} ${stf.role}`,
                 category: "staff",
                 symbolSize: 38,
               });
@@ -123,7 +123,7 @@ export default function IndustryForceGraph() {
     { name: "Город",  color: "#111827" },
     { name: "ОКВЭД",  color: "#2563EB" },
     { name: "Компания", color: "#10B981" },
-    { name: "Руководство", color: "#F59E0B" },
+    { name: "Консорциум", color: "#F59E0B" },
   ];
 
   /** Опции ECharts */
