@@ -1,0 +1,361 @@
+{
+  "SolverPage": {
+    "Sections": {
+      "title": "Sections",
+      "tableName": "Name",
+      "tableDescription": "Description",
+      "presetName": "Preset name",
+      "savePreset": "Save preset",
+      "dismis": "Dismis"
+    },
+    "Presets": {
+      "title": "Presets",
+      "presetName": "Preset name",
+      "selectedNodes": "Selected Nodes",
+      "test": "Test",
+      "update": "Update",
+      "delete": "Delete",
+      "previous": "Previous",
+      "next": "Next",
+      "testThemAll": "Test them all"
+    },
+    "Results": {
+      "title": "Results",
+      "noResults": "No results available for the selected preset",
+      "result": "Result",
+      "generateHypotheses": "Generate hypotheses",
+      "presetName": "Preset name",
+      "hypotheses": "Hypotheses"
+    }
+  },
+  "Profile": {
+    "ProfileCard": {
+      "userProfile": "User profile",
+      "fullName": "Full name",
+      "email": "Email address",
+      "phoneNumber": "Phone number",
+      "userName": "User name"
+    },
+    "CompanyCard": {
+      "companyProfile": "Organization profile",
+      "companyName": "Organization name",
+      "address": "Address",
+      "phoneNumber": "Phone number",
+      "position": "Position",
+      "staff": "Staff",
+      "AddStaff": "Create a staff account"
+    },
+    "Invitation": {
+      "title": "Invite collegue to KB editing",
+      "inviteUser": "Invite user",
+      "inviteToTarget": "Invite to target"
+    },
+    "Activity": {
+      "activityFeed": "Activity Feed",
+      "userAction": "User Action",
+      "ActivityTable": {
+        "active": "Active",
+        "deleted": "Deleted",
+        "settings": "Settings",
+        "UILocale": "UI Locale",
+        "name": "Name",
+        "description": "Description",
+        "edit": "Edit",
+        "restore": "Restore"
+      }
+    }
+  },
+  "Bookmarks": {
+    "title": "Bookmarks",
+    "bookMarkFor": "BookMark for",
+    "editItem": "Edit item",
+    "bookmarkText": "Bookmark text",
+    "edit": "Edit",
+    "delete": "Delete",
+    "bookmarksForm": {
+      "modalTitle": "Add Bookmark",
+      "bookMarkTitle": "Title",
+      "link": "Link",
+      "objectId": "Object Id",
+      "objectName": "Object Name",
+      "type": "Type",
+      "selectorType": {
+        "custom": "Custom",
+        "kb": "KnowledgeBase",
+        "section": "Section",
+        "node": "Node"
+      },
+      "text": "Text",
+      "add": "Add",
+      "cancel": "Cancel"
+    }
+  },
+  "Editor": {
+    "sectionPage": {
+      "actions": "Actions",
+      "startEdit": "Start edit",
+      "save": "Save",
+      "commitChanges": "Commit changes",
+      "cancel": "Cancel",
+      "revert": "Revert",
+      "deleteCache": "Delete cache",
+      "dropKB": "Drop Knowledge Base"
+    },
+    "dashboard": {
+      "nodes": "Nodes",
+      "links": "Links",
+      "activCond": "Activation Condition",
+      "nodeActivCond": "Node Activation Condition"
+    },
+    "name": "Name",
+    "description": "Description",
+    "nodeType": "Node Type",
+    "edit": "Edit A",
+    "create": "Create A {type}",
+    "kbList": "Knowledge Base List",
+    "AddSection": "Create Knowledge Base's Section ",
+    "sections": "Sections",
+    "links": "Links",
+    "attributes": "Attributes",
+    "selectSearch": "Select exist node",
+    "graphEdit": "Graphical Editor",
+    "canvas": {
+      "nodes": "Nodes",
+      "targetNode": "Hypotheses",
+      "fullActivationNode": "Logical AND",
+      "partialActivationNode": "Logical OR",
+      "featureNode": "Features",
+      "createForm": {
+        "create": "Create",
+        "addNew": "Add new",
+        "decline": "Decline",
+        "name": "Name",
+        "type": "Type",
+        "section": "Section",
+        "description": "Description",
+        "change": "Change"
+      },
+      "edge": "Edge",
+      "edgeForm": {
+        "default": "Default",
+        "current": "Current",
+        "mayBeObserved": "May be observed",
+        "alwaysObserved": "Always observed",
+        "alwaysMissing": "Always missing",
+        "mayBeMissing": "May be missing",
+        "from": "From",
+        "to": "To"
+      }
+    },
+    "nodePage":{
+      "nodes": "Nodes",
+      "createNode": "Create Node",
+      "editNode": "Edit Node",
+      "deleteNode": "Delete Node",
+      "table":{
+        "name": "Name",
+        "type": "Type",
+        "description": "Description",
+        "action": "Action"
+      }
+    },
+    "linkPage": {
+      "from": "From",
+      "to": "To",
+      "type": "Type",
+      "description": "Description",
+      "selectFilter": "Select filter",
+      "linkCreation": {
+        "editLink": "Edit Link",
+        "createLink": "Create Link",
+        "deleteLink": "Delete Link",
+        "connectionType": "Choose Connection Type",
+        "startNode": "Choose Start Node",
+        "endNode": "Choose End Node",
+        "addLink": "Add Link"
+      }
+    },
+    "attributesPage": {
+      "edit": "Edit",
+      "export": "Export",
+      "delete": "Delete",
+      "activationCondition": {
+        "createActivCond": "Create Activation Condition",
+        "editActivCond": "Edit Activation Condition",
+        "deleteActivCond": "Delete Activation Condition",
+        "name": "Name",
+        "isNumeric": "Is numeric",
+        "label": "Label",
+        "description": "Description",
+        "possibleStartPoint": "Possible start point",
+        "includeStartPoint": "Include start point",
+        "possibleEndPoint": "Possible end point",
+        "includeEndPoint": "Include end point",
+        "possibleValues": "Possible values",
+        "activationConditionForm": {
+          "activationCondition": "Activation condition",
+          "kbId": "KnowledgeBase Id",
+          "name": "Name",
+          "label": "Label",
+          "description": "Description",
+          "hasNumericType": "Has numeric type",
+          "possibleStart": "Possible start",
+          "possibleEnd": "Possible end",
+          "start": "Start",
+          "end": "End",
+          "possibleList": "Possible list"
+        },
+        "updateActivationCondition": {
+          "updateA": "Update a",
+          "activationConditionId": "Activation Condition Id",
+          "kbId": "KnowledgeBase Id",
+          "name": "Name",
+          "hasNumericType": "Has Numeric Type",
+          "label": "Label",
+          "description": "Description",
+          "possibleStartRange": "Possible Start Range",
+          "includeStartRange": "Include Start Range",
+          "possibleEndRange": "Possible End Range",
+          "includeEndRange": "Include End Range",
+          "possibleStringValues": "Possible String Values"
+        }
+      },
+      "nodeActivationCondition": {
+        "createNodeActivCond": "Create Node Activation Condition",
+        "editNodeActivCond": "Edit Node Activation Condition",
+        "deleteNodeActivCond": "Delete Node Activation Condition",
+        "activationCondition": "Activation condition",
+        "nodeId": "Node Id",
+        "description": "Description",
+        "startPoint": "Start point",
+        "hasStartPoint": "Has start point",
+        "endPoint": "End point",
+        "hasEndPoint": "Has end point",
+        "stringValues": "String values",
+        "nodeActivationConditionForm": {
+          "nodeActivationCondition": "Node Activation Condition",
+          "attributeId": "Attribute Id",
+          "nodeId": "Node Id",
+          "start": "Start",
+          "end": "End",
+          "includeStart": "Include start",
+          "includeEnd": "Include end",
+          "list": "List",
+          "description": "Description"
+        },
+        "updateNodeActivationCondition": {
+          "updateA": "Update a",
+          "kbId": "KnowledgeBase Id",
+          "activationConditionId": "Activation Condition Id",
+          "nodeId": "Node Id",
+          "description": "Description",
+          "possibleStartRange": "Possible Start Range",
+          "includeStartRange": "Include Start Range",
+          "possibleEndRange": "Possible End Range",
+          "includeEndRange": "Include End Range",
+          "possibleValues": "Possible Values"
+        }
+      },
+      "create": "Create",
+      "decline": "Decline",
+      "createA": "Create a",
+      "addNew": "Add new",
+      "switchView": "Switch view",
+      "10Rows": "10 rows",
+      "15Rows": "15 rows",
+      "25Rows": "25 rows",
+      "50Rows": "50 rows",
+      "100Rows": "100 rows"
+    }
+  },
+  "ViewerHeader": {
+    "addNewElement": "Add new element",
+    "tableView": "Table view",
+    "cardView": "Card view",
+    "nameFilter": "Name filter",
+    "kbName": "Knowledge base name: ",
+    "sectionName": "Section name: ",
+    "options": "Options"
+  },
+  "HeaderNav": {
+    "bookmarks": "Bookmarks",
+    "editor": "Editor",
+    "solver": "Solver",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login",
+    "home": "Home",
+    "pricing": "Pricing",
+    "companies": "Organization"
+  },
+  "MainPage": {
+    "kbEditor": "Knowledge Base Editor",
+    "description": "A tool for effective testing and evaluation of knowledge bases created using neural semantic networks",
+    "button": "Get Started"
+  },
+  "LoginPage": {
+    "email": "Your email",
+    "password": "Your password",
+    "submit": "Submit"
+  },
+  "CompanyPage":{
+    "add": "Add",
+    "addCompany": "Add company",
+    "name": "Name",
+    "phoneNumber":"Phone number",
+    "addres": "Address",
+    "cancel": "Cancel",
+    "createAccount": "Create Account",
+    "inviteUser":"Invite user",
+    "addStaffAcc": "Add staff account",
+    "userName":"User name",
+    "email":"Email",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "password": "Password",
+    "role": "Role",
+    "expert": "Expert",
+    "medic": "Medic",
+    "contentManager": "Content Manager",
+    "listOfStaff": "List of staff",
+    "emptyListOfStaff": "No staff members"
+  },
+  "Placeholder": {
+    "loginPage": {
+      "email": "Enter the email",
+      "password": "Enter the password"
+    },
+    "bookmarkForm": {
+      "enterTextHere": "Enter text here..."
+    },
+    "sectionPage":{
+      "enterName": "Enter name"
+    },
+    "attributesPage": {
+      "activationCondition": {
+        "name": "Filter by name",
+        "label": "Filter by label",
+        "description": "Filter by description",
+        "possibleStartPoint": "Filter by possible S.P",
+        "possibleEndPoint": "Filter by possible E.P",
+        "possibleValues": "Filter by possible Values"
+      },
+      "nodeActivationCondition": {
+        "filterByAC": "Filter by Activation Condition",
+        "nodeId": "Filter by node Id",
+        "startPoint": "Filter by start point",
+        "endPoint": "Filter by end point",
+        "stringValues": "Filter by string values",
+        "chooseCondition": "Choose condition"
+      }
+    },
+    "canvas": {
+      "name": "Enter name",
+      "description": "Enter description"
+    },
+    "kbForms": {
+      "name": "Enter name",
+      "description": "Enter description"
+    }
+  }
+}
