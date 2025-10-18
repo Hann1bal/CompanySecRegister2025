@@ -22,14 +22,6 @@ const SECTORS: Sector[] = [
           { id: "mosvodokanal", name: "МосВодоКанал", role: "" },
         ],
       },
-      {
-        id: "7723_mosenergo",
-        name: "АО МосЭнерго",
-        staff: [
-          { id: "stf_3", name: "Сидорова А.А.", role: "Директор" },
-          { id: "stf_4", name: "Кузнецов К.К.", role: "Главный бухгалтер" },
-        ],
-      },
     ],
   },
   {
@@ -65,7 +57,6 @@ const SECTORS: Sector[] = [
 export default function IndustryForceGraph() {
   const chartRef = useRef<ReactECharts>(null);
 
-  /** Состояния раскрытия уровней */
   const [expandedSectors, setExpandedSectors] = useState<Set<string>>(
     () => new Set()
   );
@@ -74,33 +65,29 @@ export default function IndustryForceGraph() {
   );
   const [highlightNodeId, setHighlightNodeId] = useState<string | null>(null);
 
-  /** Узлы и рёбра */
+  /** Построение графа */
   const { nodes, links } = useMemo(() => {
     const n: Array<{ id: string; name: string; category: "root"|"sector"|"company"|"staff"; symbolSize?: number }> = [];
     const l: Array<{ source: string; target: string }> = [];
 
-    // корень
     n.push({ id: "moscow", name: "Москва", category: "root", symbolSize: 90 });
 
-    // отрасли
     for (const sector of SECTORS) {
       n.push({ id: sector.id, name: sector.name, category: "sector", symbolSize: 65 });
       l.push({ source: "moscow", target: sector.id });
 
-      // компании — только если отрасль раскрыта
       if (expandedSectors.has(sector.id)) {
         for (const comp of sector.companies) {
-          n.push({ id: comp.id, name: comp.name, category: "company", symbolSize: 50 });
+          n.push({ id: comp.id, name: comp.name, category: "company", symbolSize: 70 });
           l.push({ source: sector.id, target: comp.id });
 
-          // руководство — только если компания раскрыта
           if (expandedCompanies.has(comp.id)) {
             for (const stf of comp.staff) {
               n.push({
                 id: stf.id,
                 name: `${stf.name} ${stf.role}`,
                 category: "staff",
-                symbolSize: 38,
+                symbolSize: 60,
               });
               l.push({ source: comp.id, target: stf.id });
             }
@@ -109,20 +96,19 @@ export default function IndustryForceGraph() {
       }
     }
 
-    // подсветка найденного узла
     if (highlightNodeId) {
       const idx = n.findIndex((x) => x.id === highlightNodeId);
-      if (idx >= 0) n[idx] = { ...n[idx], symbolSize: Math.max(n[idx].symbolSize ?? 42, 85) };
+      if (idx >= 0)
+        n[idx] = { ...n[idx], symbolSize: Math.max(n[idx].symbolSize ?? 42, 85) };
     }
 
     return { nodes: n, links: l };
   }, [expandedSectors, expandedCompanies, highlightNodeId]);
 
-  /** Категории (ВАЖНО: используем в series.categories и мапим в индекс) */
   const categories = [
-    { name: "Город",  color: "#111827" },
-    { name: "ОКВЭД",  color: "#2563EB" },
-    { name: "Компания", color: "#10B981" },
+    { name: "Город", color: "#111827" },
+    { name: "ОКВЭД", color: "#2563EB" },
+    { name: "Компания", color: "#ffee00ff" },
     { name: "Консорциум", color: "#F59E0B" },
   ];
 
@@ -130,7 +116,10 @@ export default function IndustryForceGraph() {
   const option = useMemo(() => {
     return {
       tooltip: {
-        formatter: (p: any) => (p.dataType === "node" ? p.data.name : `${p.data.source} → ${p.data.target}`),
+        formatter: (p: any) =>
+          p.dataType === "node"
+            ? p.data.name
+            : `${p.data.source} → ${p.data.target}`,
       },
       legend: [{ data: categories.map((c) => c.name) }],
       series: [
@@ -141,10 +130,7 @@ export default function IndustryForceGraph() {
           draggable: true,
           animationDuration: 100,
           animationEasing: "quadraticOut",
-
-          // ВАЖНО: подключаем categories
-          categories: categories.map(c => ({ name: c.name })),
-
+          categories: categories.map((c) => ({ name: c.name })),
           label: {
             show: true,
             position: "right",
@@ -157,36 +143,49 @@ export default function IndustryForceGraph() {
             gravity: 0.15,
             friction: 0.2,
           },
-
-          // Маппим строковую категорию узла в индекс категории
           data: nodes.map((node) => {
             const catIndex =
-              node.category === "root" ? 0 :
-              node.category === "sector" ? 1 :
-              node.category === "company" ? 2 : 3;
+              node.category === "root"
+                ? 0
+                : node.category === "sector"
+                ? 1
+                : node.category === "company"
+                ? 2
+                : 3;
 
-            const color = categories[catIndex].color;
+            const isNTC = node.name.includes("НТЦ Приводная техника");
+
+            const color = isNTC
+              ? "#DC2626" // 🔴 красный для НТЦ
+              : categories[catIndex].color;
 
             return {
               id: node.id,
               name: node.name,
-              category: catIndex,                       // <-- индекс, как в рабочем коде
+              category: catIndex,
               symbolSize: node.symbolSize ?? 42,
               itemStyle: {
                 color,
                 borderColor: "#fff",
                 borderWidth: 2,
                 shadowBlur: highlightNodeId === node.id ? 25 : 8,
-                shadowColor: highlightNodeId === node.id
-                  ? "rgba(99,102,241,.7)"
-                  : "rgba(0,0,0,.15)",
+                shadowColor:
+                  highlightNodeId === node.id
+                    ? "rgba(99,102,241,.7)"
+                    : "rgba(0,0,0,.15)",
               },
             };
           }),
-
           edges: links,
-          emphasis: { focus: "adjacency", lineStyle: { width: 5 } },
-          lineStyle: { curveness: 0.1, width: 2, color: "rgba(99,102,241,.6)" },
+          emphasis: {
+            focus: "adjacency",
+            lineStyle: { width: 5 },
+          },
+          lineStyle: {
+            curveness: 0.1,
+            width: 2,
+            color: "rgba(99,102,241,.6)",
+          },
         },
       ],
     };
@@ -198,10 +197,9 @@ export default function IndustryForceGraph() {
       if (params?.dataType !== "node") return;
       const id = params.data.id as string;
 
-      // клик по отрасли — раскрыть/свернуть компании
-      const sector = SECTORS.find(s => s.id === id);
+      const sector = SECTORS.find((s) => s.id === id);
       if (sector) {
-        setExpandedSectors(prev => {
+        setExpandedSectors((prev) => {
           const next = new Set(prev);
           next.has(id) ? next.delete(id) : next.add(id);
           return next;
@@ -209,11 +207,10 @@ export default function IndustryForceGraph() {
         return;
       }
 
-      // клик по компании — раскрыть/свернуть руководство
       for (const s of SECTORS) {
-        const comp = s.companies.find(c => c.id === id);
+        const comp = s.companies.find((c) => c.id === id);
         if (comp) {
-          setExpandedCompanies(prev => {
+          setExpandedCompanies((prev) => {
             const next = new Set(prev);
             next.has(id) ? next.delete(id) : next.add(id);
             return next;
@@ -222,7 +219,6 @@ export default function IndustryForceGraph() {
         }
       }
 
-      // клик по корню — свернуть всё
       if (id === "moscow") {
         setExpandedSectors(new Set());
         setExpandedCompanies(new Set());
@@ -237,12 +233,17 @@ export default function IndustryForceGraph() {
         <h1 className="text-2xl font-bold text-gray-800">
           Отраслевой граф (Москва → ОКВЭД → Компании → Руководство)
         </h1>
-        <Button color="gray" onClick={() => { setExpandedSectors(new Set()); setExpandedCompanies(new Set()); }}>
+        <Button
+          color="gray"
+          onClick={() => {
+            setExpandedSectors(new Set());
+            setExpandedCompanies(new Set());
+          }}
+        >
           Свернуть всё
         </Button>
       </div>
 
-      {/* Граф */}
       <div className="p-4">
         <Card className="shadow-md">
           <div className="h-[72vh]">
@@ -251,7 +252,7 @@ export default function IndustryForceGraph() {
               option={option}
               onEvents={onChartEvents}
               style={{ height: "100%", width: "100%" }}
-              notMerge={false}     // не пересоздаём серии, только обновляем
+              notMerge={false}
               lazyUpdate={true}
             />
           </div>
