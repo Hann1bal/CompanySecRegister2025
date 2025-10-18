@@ -2,6 +2,6 @@
 
 echo "Stopping Company API..."
 
-docker-compose down
+docker compose down
 
 echo "Services stopped"
