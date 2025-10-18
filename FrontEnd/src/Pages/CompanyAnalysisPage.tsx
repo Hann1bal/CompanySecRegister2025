@@ -1,7 +1,10 @@
 import { Button, Card } from "flowbite-react";
 import ReactECharts from "echarts-for-react";
+import { Link } from "react-router-dom";
 
 export default function CompanyAnalyticsPage() {
+
+    const inn = 7701234567
   // 💰 Данные для финансовых отчётов
   const financeData = {
     revenue: { years: ["2020", "2021", "2022", "2023", "2024"], data: [4200, 5100, 6000, 7200, 8500] },
@@ -96,9 +99,11 @@ export default function CompanyAnalyticsPage() {
           </h1>
           <p className="text-gray-500">ИНН: 7701234567</p>
         </div>
-        <Button color="light" className="hover:scale-105 transition">
+        <Link to="/company/7701234567">
+        <Button  color="light" className="hover:scale-105 transition">
           ⬅ Назад
         </Button>
+        </Link>
       </header>
 
       {/* 🔹 Основной контент */}

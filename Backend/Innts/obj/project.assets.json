@@ -4464,24 +4464,25 @@
     ]
   },
   "packageFolders": {
-    "/home/andrey/.nuget/packages/": {}
+    "/home/jafarabat/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/andrey/Hahato/CompanySecRegister2025/Backend/Innts/Innts.csproj",
+      "projectUniqueName": "/home/jafarabat/hack/CompanySecRegister2025/Backend/Innts/Innts.csproj",
       "projectName": "Innts",
-      "projectPath": "/home/andrey/Hahato/CompanySecRegister2025/Backend/Innts/Innts.csproj",
-      "packagesPath": "/home/andrey/.nuget/packages/",
-      "outputPath": "/home/andrey/Hahato/CompanySecRegister2025/Backend/Innts/obj/",
+      "projectPath": "/home/jafarabat/hack/CompanySecRegister2025/Backend/Innts/Innts.csproj",
+      "packagesPath": "/home/jafarabat/.nuget/packages/",
+      "outputPath": "/home/jafarabat/hack/CompanySecRegister2025/Backend/Innts/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/andrey/.nuget/NuGet/NuGet.Config"
+        "/home/jafarabat/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4574,7 +4575,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.109/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

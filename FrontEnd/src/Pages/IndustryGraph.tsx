@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactECharts from "echarts-for-react";
 import { Button, Card } from "flowbite-react";
 
@@ -56,13 +57,10 @@ const SECTORS: Sector[] = [
 
 export default function IndustryForceGraph() {
   const chartRef = useRef<ReactECharts>(null);
+  const navigate = useNavigate(); // ✅ теперь через react-router
 
-  const [expandedSectors, setExpandedSectors] = useState<Set<string>>(
-    () => new Set()
-  );
-  const [expandedCompanies, setExpandedCompanies] = useState<Set<string>>(
-    () => new Set()
-  );
+  const [expandedSectors, setExpandedSectors] = useState<Set<string>>(() => new Set());
+  const [expandedCompanies, setExpandedCompanies] = useState<Set<string>>(() => new Set());
   const [highlightNodeId, setHighlightNodeId] = useState<string | null>(null);
 
   /** Построение графа */
@@ -117,9 +115,7 @@ export default function IndustryForceGraph() {
     return {
       tooltip: {
         formatter: (p: any) =>
-          p.dataType === "node"
-            ? p.data.name
-            : `${p.data.source} → ${p.data.target}`,
+          p.dataType === "node" ? p.data.name : `${p.data.source} → ${p.data.target}`,
       },
       legend: [{ data: categories.map((c) => c.name) }],
       series: [
@@ -155,9 +151,7 @@ export default function IndustryForceGraph() {
 
             const isNTC = node.name.includes("НТЦ Приводная техника");
 
-            const color = isNTC
-              ? "#DC2626" // 🔴 красный для НТЦ
-              : categories[catIndex].color;
+            const color = isNTC ? "#DC2626" : categories[catIndex].color;
 
             return {
               id: node.id,
@@ -177,15 +171,8 @@ export default function IndustryForceGraph() {
             };
           }),
           edges: links,
-          emphasis: {
-            focus: "adjacency",
-            lineStyle: { width: 5 },
-          },
-          lineStyle: {
-            curveness: 0.1,
-            width: 2,
-            color: "rgba(99,102,241,.6)",
-          },
+          emphasis: { focus: "adjacency", lineStyle: { width: 5 } },
+          lineStyle: { curveness: 0.1, width: 2, color: "rgba(99,102,241,.6)" },
         },
       ],
     };
@@ -229,21 +216,30 @@ export default function IndustryForceGraph() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* Верхняя панель */}
       <div className="flex justify-between items-center bg-white shadow px-6 py-4">
         <h1 className="text-2xl font-bold text-gray-800">
           Отраслевой граф (Москва → ОКВЭД → Компании → Руководство)
         </h1>
-        <Button
-          color="gray"
-          onClick={() => {
-            setExpandedSectors(new Set());
-            setExpandedCompanies(new Set());
-          }}
-        >
-          Свернуть всё
-        </Button>
+
+        <div className="flex gap-3">
+          <Button color="light" onClick={() => navigate("/company/7701234567")}>
+            ← Назад
+          </Button>
+
+          <Button
+            color="gray"
+            onClick={() => {
+              setExpandedSectors(new Set());
+              setExpandedCompanies(new Set());
+            }}
+          >
+            Свернуть всё
+          </Button>
+        </div>
       </div>
 
+      {/* Граф */}
       <div className="p-4">
         <Card className="shadow-md">
           <div className="h-[72vh]">

@@ -427,3 +427,8 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+
+Backend/Innts/obj/Innts.csproj.nuget.dgspec.json
+Backend/Innts/obj/Innts.csproj.nuget.dgspec.json
+Backend/Innts/obj/Innts.csproj.nuget.g.props
+Backend/Innts/obj/project.assets.json
