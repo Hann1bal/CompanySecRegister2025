@@ -1,0 +1,54 @@
+.border-div {
+    border: 2px solid white;
+    border-radius: 1.9em;
+    margin: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.border-div>.reaflow-container {
+    border: 2px solid white;
+    border-radius: 1.9em;
+    width: 70vw;
+}
+
+.w-570>.react-flow>.react-flow__panel.react-flow__attribution.bottom.right {
+    visibility: hidden;
+}
+
+.w-570>.react-flow__edge .react-flow__edge-straight .nopan .selected {
+    background-color: blueviolet;
+}
+
+.react-flow__edge .react-flow__edge-straight .nopan {
+    background-color: blueviolet;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+    stroke: red;
+    stroke-width: 5;
+    stroke-opacity: 0.75;
+    z-index: 99;
+}
+
+.react-flow__edge.selected  {
+    z-index: 999;
+}
+
+.react-flow__edge.selected .react-flow__edge-textwrapper > text {
+    font-size: 14px;
+}
+
+.konvajs-content {
+    margin: 1em;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 1.9em;
+
+}
+
+.konvajs-content>canvas {
+    border-radius: 1.9em;
+    background-color: black;
+
+}

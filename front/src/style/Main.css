@@ -1,0 +1,17 @@
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  animation: fadeIn 1s ease-out;
+}
+.main-img {
+  filter: hue-rotate(35deg) saturate(250%) brightness(85%);
+}

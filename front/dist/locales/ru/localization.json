@@ -1,0 +1,361 @@
+{
+  "SolverPage": {
+    "Sections": {
+      "title": "Разделы",
+      "tableName": "Название",
+      "tableDescription": "Описание",
+      "presetName": "Название примера запроса",
+      "savePreset": "Сохранить пример запроса",
+      "dismis": "Отменить"
+    },
+    "Presets": {
+      "title": "Примеры запросов",
+      "presetName": "Название примера запроса",
+      "selectedNodes": "Выбранные узлы",
+      "test": "Тест",
+      "update": "Обновить",
+      "delete": "Удалить",
+      "previous": "Пред.",
+      "next": "След.",
+      "testThemAll": "Тестировать все"
+    },
+    "Results": {
+      "title": "Результаты",
+      "noResults": "Результаты для выбранного примера запроса недоступны",
+      "result": "Результат",
+      "generateHypotheses": "Сгенерировать гипотезу",
+      "presetName": "Название примера запроса",
+      "hypotheses": "Гипотеза"
+    }
+  },
+  "Profile": {
+    "ProfileCard": {
+      "userProfile": "Профиль пользователя",
+      "fullName": "Полное имя",
+      "email": "Электронная почта",
+      "phoneNumber": "Номер телефона",
+      "userName": "Имя пользователя"
+    },
+    "CompanyCard": {
+      "companyProfile": "Профиль организации",
+      "companyName": "Название организации",
+      "address": "Адрес",
+      "phoneNumber": "Номер телефона",
+      "position": "Должность",
+      "staff": "Сотрудники",
+      "AddStaff": "Создать аккаунт сотрудника"
+    },
+    "Invitation": {
+      "title": "Пригласить коллегу для редактирования БЗ",
+      "inviteUser": "Пригласить пользователя",
+      "inviteToTarget": "Пригласить в цель"
+    },
+    "Activity": {
+      "activityFeed": "Лента активности",
+      "userAction": "Действие пользователя",
+      "ActivityTable": {
+        "active": "Активные",
+        "deleted": "Удалённые",
+        "settings": "Настройки",
+        "UILocale": "Язык интерфейса",
+        "name": "Название",
+        "description": "Описание",
+        "edit": "Редактировать",
+        "restore": "Восстановить"
+      }
+    }
+  },
+  "Bookmarks": {
+    "title": "Закладки",
+    "bookMarkFor": "Закладка для",
+    "editItem": "Редактировать элемент",
+    "bookmarkText": "Содеражание закладки",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "bookmarksForm": {
+      "modalTitle": "Добавить закладку",
+      "bookMarkTitle": "Заголовок",
+      "link": "Ссылка",
+      "objectId": "Id объекта",
+      "objectName": "Название объекта",
+      "type": "Тип",
+      "selectorType": {
+        "custom": "Пользовательский",
+        "kb": "База Знаний",
+        "section": "Раздел",
+        "node": "Узел"
+      },
+      "text": "Содержание",
+      "add": "Добавить",
+      "cancel": "Отменить"
+    }
+  },
+  "Editor": {
+    "sectionPage": {
+      "actions": "Действия",
+      "startEdit": "Начать изменения",
+      "save": "Сохранить",
+      "commitChanges": "Сохранить изменения",
+      "cancel": "Отменить",
+      "revert": "Вернуть",
+      "deleteCache": "Удалить кэш",
+      "dropKB": "Удалить базу знаний"
+    },
+    "dashboard": {
+      "nodes": "Узлы",
+      "links": "Связи",
+      "activCond": "Условие активации",
+      "nodeActivCond": "Условие активации узла"
+    },
+    "name": "Название",
+    "description": "Описание",
+    "nodeType": "Тип узла",
+    "edit": "Редактировать",
+    "AddSection": "Создать раздел базы знаний",
+    "create": "Создать {type}",
+    "kbList": "Список Баз Знаний",
+    "sections": "Разделы",
+    "links": "Связи",
+    "attributes": "Атрибуты",
+    "selectSearch": "Выбрать существующий узел",
+    "graphEdit": "Графический редактор",
+    "canvas": {
+      "nodes": "Узлы",
+      "targetNode": "Гипотеза",
+      "fullActivationNode": "Логическое И",
+      "partialActivationNode": "Логическое ИЛИ",
+      "featureNode": "Признак",
+      "createForm": {
+        "create": "Создать",
+        "addNew": "Добавить новый",
+        "decline": "Отменить",
+        "name": "Название",
+        "type": "Тип",
+        "section": "Раздел",
+        "description": "Описание",
+        "change": "Изменить"
+      },
+      "edge": "Связь",
+      "edgeForm": {
+        "default": "По умолчанию",
+        "current": "Текущий",
+        "mayBeObserved": "Может наблюдаться",
+        "alwaysObserved": "Всегда наблюдается",
+        "alwaysMissing": "Всегда отсутствует",
+        "mayBeMissing": "Может отсутствовать",
+        "from": "От",
+        "to": "К"
+      }
+    },
+    "nodePage": {
+      "nodes": "Узлы",
+      "createNode": "Создать узел",
+      "editNode": "Редактировать узел",
+      "deleteNode": "Удалить узел",
+      "table": {
+        "name": "Название",
+        "type": "Тип",
+        "description": "Описание",
+        "action": "Действие"
+      }
+    },
+    "linkPage": {
+      "from": "От",
+      "to": "К",
+      "type": "Тип",
+      "description": "Описание",
+      "selectFilter": "Фильтр",
+      "linkCreation": {
+        "editLink": "Изменить связь",
+        "createLink": "Создать связь",
+        "deleteLink": "Удалить связь",
+        "connectionType": "Выберите тип связи",
+        "startNode": "Выберите начальный узел",
+        "endNode": "Выберите конечный узел",
+        "addLink": "Добавить связь"
+      }
+    },
+    "attributesPage": {
+      "edit": "Изменить",
+      "export": "Экспорт",
+      "delete": "Удалить",
+      "activationCondition": {
+        "createActivCond": "Создать условие активации",
+        "editActivCond": "Изменить условие активации",
+        "deleteActivCond": "Удалить условие активации",
+        "name": "Название",
+        "isNumeric": "Числовое значение",
+        "label": "Метка",
+        "description": "Описание",
+        "possibleStartPoint": "Возможная начальная точка",
+        "includeStartPoint": "Включить начальную точку",
+        "possibleEndPoint": "Возможная конечная точка",
+        "includeEndPoint": "Включить конечную точку",
+        "possibleValues": "Возможные значения",
+        "activationConditionForm": {
+          "activationCondition": "Условие активации",
+          "kbId": "Id Базы знаний",
+          "name": "Название",
+          "label": "Метка",
+          "description": "Описание",
+          "hasNumericType": "Является числовым типом",
+          "possibleStart": "Возможное начало",
+          "possibleEnd": "Возможный конец",
+          "start": "Начало",
+          "end": "Конец",
+          "possibleList": "Возможный список"
+        },
+        "updateActivationCondition": {
+          "updateA": "Обновить",
+          "activationConditionId": "Id условия активации",
+          "kbId": "Id Базы Знаний",
+          "name": "Название",
+          "hasNumericType": "Является числовым значением",
+          "label": "Метка",
+          "description": "Описание",
+          "possibleStartRange": "Возможный диапазон начала",
+          "includeStartRange": "Включать начальный диапазон",
+          "possibleEndRange": "Возможный диапазон конца",
+          "includeEndRange": "Включать конечный диапазон",
+          "possibleStringValues": "Возможные строковые значения"
+        }
+      },
+      "nodeActivationCondition": {
+        "createNodeActivCond": "Создать условие активации узла",
+        "editNodeActivCond": "Изменить условие активации узла",
+        "deleteNodeActivCond": "Удалить условие активации узла",
+        "activationCondition": "Условие активации",
+        "nodeId": "Id узла",
+        "description": "Описание",
+        "startPoint": "Начальная точка",
+        "hasStartPoint": "Имеет начальную точку",
+        "endPoint": "Конечная точка",
+        "hasEndPoint": "Имеет конечную точку",
+        "stringValues": "Строковые значения",
+        "nodeActivationConditionForm": {
+          "nodeActivationCondition": "Условие активации узла",
+          "attributeId": "Id Атрибута",
+          "nodeId": "Id узла",
+          "start": "Начало",
+          "end": "Конец",
+          "includeStart": "Включать начало",
+          "includeEnd": "Включать конец",
+          "list": "Список",
+          "description": "Описание"
+        },
+        "updateNodeActivationCondition": {
+          "updateA": "Обновить",
+          "kbId": "Id Базы Знаний",
+          "activationConditionId": "Id условия активации",
+          "nodeId": "Id Узла",
+          "description": "Описание",
+          "possibleStartRange": "Возможный диапазон начала",
+          "includeStartRange": "Включать начальный диапазон",
+          "possibleEndRange": "Возможный диапазон конца",
+          "includeEndRange": "Включать конечный диапазон",
+          "possibleValues": "Возможные значения"
+        }
+      },
+      "create": "Создать",
+      "decline": "Отменить",
+      "createA": "Создать",
+      "addNew": "Добавить новый",
+      "switchView": "Переключить вид",
+      "10Rows": "10 строк",
+      "15Rows": "15 строк",
+      "25Rows": "25 строк",
+      "50Rows": "50 строк",
+      "100Rows": "100 строк"
+    }
+  },
+  "ViewerHeader": {
+    "addNewElement": "Добавить новый элемент",
+    "tableView": "Табличный вид",
+    "cardView": "Карточный вид",
+    "nameFilter": "Название",
+    "kbName": "Название Базы Знаний: ",
+    "sectionName": "Название раздела: ",
+    "options": "Опции"
+  },
+  "HeaderNav": {
+    "bookmarks": "Закладки",
+    "editor": "Редактор",
+    "solver": "Решатель",
+    "profile": "Профиль",
+    "logout": "Выйти",
+    "login": "Войти",
+    "home": "Главная",
+    "pricing": "Цены",
+    "companies": "Организации"
+  },
+  "MainPage": {
+    "kbEditor": "Редактор Базы Знаний",
+    "description": "Инструмент для эффективного тестирования и оценки баз знаний, созданных с использованием нейронных семантических сетей",
+    "button": "Начать"
+  },
+  "LoginPage": {
+    "email": "Ваша электронная почта",
+    "password": "Ваш пароль",
+    "submit": "Войти"
+  },
+  "CompanyPage": {
+    "add": "Добавить",
+    "addCompany": "Добавить компанию",
+    "name": "Название",
+    "phoneNumber": "Номер телефона",
+    "addres": "Адрес",
+    "cancel": "Отменить",
+    "createAccount": "Создать аккаунт",
+    "inviteUser": "Пригласить пользователя",
+    "addStaffAcc": "Добавить аккаунт сотрудника",
+    "userName": "Имя пользователя",
+    "email": "Электронная почта",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "password": "Пароль",
+    "role": "Должность",
+    "expert": "Эксперт",
+    "medic": "Врач",
+    "contentManager": "Контент-менеджер",
+    "listOfStaff": "Список сотрудников",
+    "emptyListOfStaff": "Список сотрудников пуст"
+  },
+  "Placeholder": {
+    "loginPage": {
+      "email": "Enter the email",
+      "password": "Enter the password"
+    },
+    "bookmarkForm": {
+      "enterTextHere": "Enter text here..."
+    },
+    "sectionPage": {
+      "enterName": "Введите название"
+    },
+    "attributesPage": {
+      "activationCondition": {
+        "name": "Поиск по названию",
+        "label": "Поиск по метке",
+        "description": "Поиск по описанию",
+        "possibleStartPoint": "Поиск по возможной Н.Т",
+        "possibleEndPoint": "Поиск по возможной К.Т",
+        "possibleValues": "Поиск по возможным значениям"
+      },
+      "nodeActivationCondition": {
+        "filterByAC": "Поиск по условию активации",
+        "nodeId": "Поиск по Id узла",
+        "startPoint": "Поиск по начлальной точке",
+        "endPoint": "Поиск по конечной точке",
+        "stringValues": "Поиск по строковым значениям",
+        "chooseCondition": "Выберите условие"
+      }
+    },
+    "canvas": {
+      "name": "Введите название",
+      "description": "Введите описание"
+    },
+    "kbForms": {
+      "name": "Введите название",
+      "description": "Введите описание"
+    }
+  }
+}
