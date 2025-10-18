@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status, UploadFile, File
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 from typing import Optional, List
@@ -119,3 +119,76 @@ async def update_company(
     await db.refresh(company)
     
     return company
+
+### Rusprofile
+
+from app.services.rusprofile import fetch_company_by_inn
+import asyncio
+import concurrent.futures
+import re
+from typing import Dict, Any
+from fastapi.responses import JSONResponse
+
+# Rusprofile endpoints
+@router.get("/rusprofile/{inn}", response_model=Dict[str, Any])
+async def get_company_rusprofile(inn: str):
+    """Возвращает данные о компании с Rusprofile по ИНН."""
+    if not re.fullmatch(r"\d{10}|\d{12}", inn):
+        raise HTTPException(status_code=400, detail="ИНН должен быть 10 или 12 цифр")
+
+    # выполняем синхронную функцию в пуле потоков
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        data = await loop.run_in_executor(pool, fetch_company_by_inn, inn)
+
+    if "error" in data:
+        raise HTTPException(status_code=500, detail=data["error"])
+
+    return JSONResponse(content=data)
+
+# Pdf parser
+import PyPDF2
+import io
+
+@router.post("/parse-pdf/")
+async def parse_pdf(file: UploadFile = File(...)):
+    if not file.filename.lower().endswith('.pdf'):
+        raise HTTPException(400, "Требуется PDF файл")
+    
+    content = await file.read()
+    pdf = PyPDF2.PdfReader(io.BytesIO(content))
+    text = " ".join(p.extract_text() or "" for p in pdf.pages)
+    text = re.sub(r"\s+", " ", text)
+    
+    data = {}
+    patterns = {
+        "inn": r"ИНН юридического лица [^\d]*([\d\s]{10,11})",
+        "kpp": r"КПП\s+(?:юридического лица\s*)?(\d{9,12})",
+        "orgFullName": r"Полное наименование на русском языке\s+([^0-9]+)",
+        "registrationNalogDate": r"Дата постановки на учет в налоговом\s*органе\s*(\d{2}\.\d{2}\.\d{4})",
+        "registerNumberInsurer": r"Регистрационный номер страхователя\s+(\d{5,15})",
+        "registrationInsureDate": r"Дата постановки на учет в качестве\s*страхователя\s*(\d{2}\.\d{2}\.\d{4})",
+        "main_okved": r"Код и наименование вида деятельности\s+([\d\.]+)",
+        "okved_description": r"Код и наименование вида деятельности\s+[\d\.]+\s+([А-Яа-яЁё\s,\-\"\n\(\)]+)",
+        "legalAddress": r"Адрес юридического лица\s+([0-9,А-ЯЁа-яё\.\-\s]+?)(?=\s\d{2,3}\s|\sE-mail|$)",
+        "head": r"(?:Фамилия Имя Отчество|Руководитель|Генеральный директор)\s*([А-ЯЁA-Z\s\-]+)",
+        "ogrn": r"ОГРН\s+(\d{13,15})",
+        "email": r"E[-\s]*mail\s+([\w\.\-]+@[\w\.\-]+)",
+        # "productionAddress": "",
+        # "additionalSiteAddress": "",
+        # "industry": "",
+        # "subIndustry": "",
+        # "mainOkved": "",
+        # "mainOkvedActivity": "",
+        # "productionOkved": "",
+        # "registrationDate": "",
+        # "parentOrgName": "",
+        # "parentOrgInn": "",
+        #...
+    }
+
+    for key, pattern in patterns.items():
+        if m := re.search(pattern, text, re.IGNORECASE):
+            data[key] = m.group(1).strip()
+    
+    return data
