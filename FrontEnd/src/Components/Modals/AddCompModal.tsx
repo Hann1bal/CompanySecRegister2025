@@ -16,7 +16,7 @@ const AddCompModal = (props: AddCompModal) => {
     >
       <Modal.Header>Добавить организацию</Modal.Header>
       <Modal.Body>
-        <AddCompanyForm />
+        <AddCompanyForm onCloseModalAction={props.switchState} />
       </Modal.Body>
     </Modal>
   );

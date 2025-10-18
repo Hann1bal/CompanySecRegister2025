@@ -12,22 +12,6 @@ interface Company {
   address: string;
 }
 
-// const companyData = {
-//   ИНН: "7701234567",
-//   "Наименование организации": "ООО ТехПром",
-//   "Полное наименование организации":
-//     "Общество с ограниченной ответственностью ТехПром",
-//   Статус: "Действующая",
-//   "Юридический адрес": "г. Москва, ул. Тверская, д. 10",
-//   "Адрес производства": "г. Москва, ул. Ленина, д. 15",
-//   "Основная отрасль": "Машиностроение",
-//   "Подотрасль (Основная)": "Промышленное оборудование",
-//   "Дата регистрации": "15.03.2012",
-//   Руководитель: "Иванов И.И.",
-//   "Электронная почта": "info@techprom.ru",
-//   Сайт: "https://techprom.ru",
-// };
-
 const initialData: Company[] = [
   {
     inn: "7701234567",
@@ -70,26 +54,37 @@ const CompaniesListPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      {/* Заголовок и кнопка */}
+      {/* Заголовок и кнопки */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">
           Список Московских Компаний
         </h1>
 
-        <Button
-          color="success"
-          className="shadow-md hover:scale-105 transition-transform duration-200"
-          onClick={() => setaddCompanyModal(true)}
-        >
-          + Добавить организацию
-        </Button>
-        <Button
-          color="success"
-          className="shadow-md hover:scale-105 transition-transform duration-200"
-          onClick={() => setopenModal(true)}
-        >
-          + Импорт из файла
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            color="info"
+            className="shadow-md hover:scale-105 transition-transform duration-200"
+            onClick={() => navigate("/mskanalytics")}
+          >
+            📊 Аналитика отраслей Москвы
+          </Button>
+
+          <Button
+            color="success"
+            className="shadow-md hover:scale-105 transition-transform duration-200"
+            onClick={() => setopenModal(true)}
+          >
+            + Импорт из файла
+          </Button>
+
+          <Button
+            color="success"
+            className="shadow-md hover:scale-105 transition-transform duration-200"
+            onClick={() => setaddCompanyModal(true)}
+          >
+            + Добавить организацию
+          </Button>
+        </div>
       </div>
 
       {/* Таблица */}
@@ -118,9 +113,7 @@ const CompaniesListPage: React.FC = () => {
                 <TextInput
                   placeholder="Поиск..."
                   value={filters.orgName}
-                  onChange={(e) =>
-                    handleFilterChange("orgName", e.target.value)
-                  }
+                  onChange={(e) => handleFilterChange("orgName", e.target.value)}
                 />
               </Table.Cell>
               <Table.Cell>
@@ -143,9 +136,7 @@ const CompaniesListPage: React.FC = () => {
                 <TextInput
                   placeholder="Поиск..."
                   value={filters.address}
-                  onChange={(e) =>
-                    handleFilterChange("address", e.target.value)
-                  }
+                  onChange={(e) => handleFilterChange("address", e.target.value)}
                 />
               </Table.Cell>
               <Table.Cell></Table.Cell>
@@ -178,16 +169,13 @@ const CompaniesListPage: React.FC = () => {
           </Table.Body>
         </Table>
       </div>
+
+      {/* Модальные окна */}
       <AddCompModal
         show={addCompanyModal}
         switchState={setaddCompanyModal}
-      ></AddCompModal>
-      <ImportFromFile
-        show={openModal}
-        switchState={setaddCompanyModal}
-      >
-        
-      </ImportFromFile>
+      />
+      <ImportFromFile show={openModal} switchState={setopenModal} />
     </div>
   );
 };
