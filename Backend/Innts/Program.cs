@@ -56,7 +56,9 @@ builder.Services.AddDbContextFactory<DatabaseContext>
     }
 );
 builder.Services.AddScoped<IBaseRepository<CompanyModel>, CompanyRepository>();
+builder.Services.AddHostedService<TimedService>();
 builder.Services.AddEndpointsApiExplorer();
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -120,7 +122,6 @@ if (app.Environment.IsDevelopment())
     app.MapGet("/", () => Results.Redirect("/openapi/v1.json"));
 }
 app.UseAuthentication();
-app.UseHttpsRedirection();
 app.UseCors(originSpecificName);
 app.UseRouting();
 app.UseAuthorization();

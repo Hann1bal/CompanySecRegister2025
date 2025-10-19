@@ -31,7 +31,7 @@ class CompanyStore{
     }
 
     getCompanyByInn(inn: string){
-        const company = this.data.find((c: ICompany)=> c.orgFullName == inn)
+        const company = this.data.find((c: ICompany)=> c.inn == inn)
         if (company) this.setCurrentCompany(company);
     }
 

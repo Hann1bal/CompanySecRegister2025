@@ -132,8 +132,8 @@ const CompaniesListPage: React.FC = () => {
             {/* Данные */}
             {filteredData.length > 0 ? (
               filteredData.map((company) => (
-                <Table.Row key={company.orgFullName} className="bg-white hover:bg-gray-50">
-                  <Table.Cell>{company.orgFullName}</Table.Cell>
+                <Table.Row key={company.inn} className="bg-white hover:bg-gray-50">
+                  <Table.Cell>{company.inn}</Table.Cell>
                   <Table.Cell>{company.orgName}</Table.Cell>
                   <Table.Cell>-</Table.Cell>
                   <Table.Cell>{company.status}</Table.Cell>
@@ -144,7 +144,7 @@ const CompaniesListPage: React.FC = () => {
                       size="sm"
                       pill
                       className="shadow-md hover:scale-105 transition-transform duration-200"
-                      onClick={() => navigate(`/company/${company.orgFullName}`, {state: company.orgFullName})}
+                      onClick={() => navigate(`/company/${company.inn}`, {state: company.inn})}
                     >
                       Подробнее
                     </Button>

@@ -31,7 +31,7 @@ public class DataController(IBaseRepository<CompanyModel> dbRepository, IDbConte
         try
         {
             // Находим компанию по ИНН
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.orgFullName == inn);
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.inn == inn);
 
             if (company == null)
             {
