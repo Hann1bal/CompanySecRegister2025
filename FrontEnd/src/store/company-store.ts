@@ -46,6 +46,7 @@ class CompanyStore{
         const payload = { [key]: value };
         let response = await PutService.updateCompanyField(inn, payload)
         if (response.status<300){
+            this.getData()
             this.getCompanyByInn(inn)
         }
     }
