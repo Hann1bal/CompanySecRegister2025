@@ -8,7 +8,7 @@ services:
       - POSTGRES_USER=company_user
       - POSTGRES_PASSWORD=company_password
     ports:
-      - "5432:5432"
+      - "5433:5434"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -22,7 +22,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://company_user:company_password@db:5432/company_db
+      - DATABASE_URL=postgresql+asyncpg://company_user:company_password@db:5433/company_db
     depends_on:
       db:
         condition: service_healthy
@@ -33,33 +33,33 @@ services:
              alembic upgrade head && 
              uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
 
-  postgres:
-    image: postgres:latest
-    container_name: postgres_db
-    environment:
-      POSTGRES_DB: myappdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: your_secure_password
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres_data_asp:/var/lib/postgresql/data
-    networks:
-      - app-network
-    restart: unless-stopped
+  # postgres:
+  #   image: postgres:latest
+  #   container_name: postgres_db
+  #   environment:
+  #     POSTGRES_DB: myappdb
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: your_secure_password
+  #   ports:
+  #     - "5433:5432"
+  #   volumes:
+  #     - postgres_data_asp:/var/lib/postgresql/data
+  #   networks:
+  #     - app-network
+  #   restart: unless-stopped
 
-  webapp:
-    build: ./Backend/Innts
-    container_name: aspnet_core_app
-    environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres_db;Port=5433;Database=myappdb;Username=postgres;Password=your_secure_password
-    ports:
-      - "8080:80"
-    depends_on:
-      - postgres
-    networks:
-      - app-network
-    restart: unless-stopped
+  # webapp:
+  #   build: ./Backend/Innts
+  #   container_name: aspnet_core_app
+  #   environment:
+  #     - ConnectionStrings__DefaultConnection=Host=postgres_db;Port=5433;Database=myappdb;Username=postgres;Password=your_secure_password
+  #   ports:
+  #     - "8080:80"
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - app-network
+  #   restart: unless-stopped
 
   adminer:
     image: adminer:4.8.1
@@ -75,8 +75,8 @@ services:
 
 volumes:
   postgres_data:
-  postgres_data_asp:
+  #postgres_data_asp:
 
-networks:
-  app-network:
-    driver: bridge
+# networks:
+#   app-network:
+#     driver: bridge

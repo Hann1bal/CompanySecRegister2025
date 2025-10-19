@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Button, TextInput } from "flowbite-react";
-import { FaEdit, FaSearch } from "react-icons/fa";
+import ImportFromFile from "../Components/Modals/ImportFromFile";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { Button, TextInput, FileInput, Label } from "flowbite-react";
+import { FaEdit, FaSearch, FaUpload } from "react-icons/fa";
 import { useStores } from "../context/root-store-context";
 import { observer } from "mobx-react-lite";
 
@@ -85,7 +86,6 @@ const fieldDictionary: Record<string, string> = {
   taxOther2022: "Прочие налоги, тыс. руб. (2022)",
   taxOther2023: "Прочие налоги, тыс. руб. (2023)",
   taxOther2024: "Прочие налоги, тыс. руб. (2024)",
-
   // Инвестиции и экспорт
   excise2022: "Акцизы, тыс. руб. (2022)",
   excise2023: "Акцизы, тыс. руб. (2023)",
@@ -135,30 +135,76 @@ const fieldDictionary: Record<string, string> = {
 };
 
 const CompanyInfo: React.FC = () => {
-  const { inn } = useParams<{ inn: string }>();
+  const { inn: innFromParams } = useParams<{ inn: string }>();
+  const navigate = useNavigate();
+
   const {
-    company: { currentCompany, getCompanyByInn, updateCompanyField },
+    company: { currentCompany, getCompanyByInn, updateCompanyField, importPdf },
   } = useStores();
 
   const [editingField, setEditingField] = useState<string | null>(null);
   const [tempValue, setTempValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
+  // ✅ Сохраняем и восстанавливаем ИНН
   useEffect(() => {
-    if (inn) getCompanyByInn(inn);
-  }, [inn, getCompanyByInn]);
+    if (innFromParams) {
+      localStorage.setItem("lastViewedInn", innFromParams);
+    } else {
+      const savedInn = localStorage.getItem("lastViewedInn");
+      if (savedInn) {
+        navigate(`/companies/${savedInn}`, { replace: true });
+      }
+    }
+  }, [innFromParams, navigate]);
+
+  // ✅ Загружаем данные компании
+  useEffect(() => {
+    const activeInn = innFromParams || localStorage.getItem("lastViewedInn");
+    if (activeInn) {
+      getCompanyByInn(activeInn);
+    }
+  }, [innFromParams, getCompanyByInn]);
 
   const handleCancel = () => setEditingField(null);
-
   const handleEdit = (key: string, value: string) => {
     setEditingField(key);
     setTempValue(value);
   };
 
   const handleSave = async (key: string) => {
-    if (!inn) return;
-    await updateCompanyField(inn, key, tempValue);
+    const activeInn = innFromParams || localStorage.getItem("lastViewedInn");
+    if (!activeInn) return;
+    await updateCompanyField(activeInn, key, tempValue);
     setEditingField(null);
+  };
+
+  // 🚀 Загрузка PDF
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type === "application/pdf") {
+      setPdfFile(file);
+    } else {
+      alert("Пожалуйста, выберите PDF файл");
+    }
+  };
+
+  const handlePdfUpload = async () => {
+    if (!pdfFile) return alert("Выберите PDF-файл!");
+    setUploading(true);
+    try {
+      await importPdf(pdfFile);
+      alert("✅ PDF успешно отправлен на обработку!");
+      setPdfFile(null);
+    } catch (error) {
+      console.error("Ошибка при загрузке PDF:", error);
+      alert("❌ Ошибка при загрузке PDF");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const filteredData = useMemo(() => {
@@ -167,11 +213,9 @@ const CompanyInfo: React.FC = () => {
     if (!searchQuery.trim()) return entries;
 
     const query = searchQuery.toLowerCase();
-
     return entries.filter(([key, value]) => {
       const translatedKey = fieldDictionary[key]?.toLowerCase() || key.toLowerCase();
       const stringValue = String(value ?? "").toLowerCase();
-
       return translatedKey.includes(query) || stringValue.includes(query);
     });
   }, [currentCompany, searchQuery]);
@@ -185,23 +229,59 @@ const CompanyInfo: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
+      {/* Верхняя панель */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold text-gray-800 text-center sm:text-left">
           Информация о компании —{" "}
           <span className="text-blue-600">{currentCompany.orgName}</span>
         </h1>
 
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
+          <Button
+            color="success"
+            className="shadow-md hover:scale-105 transition-transform duration-200"
+            onClick={() => setOpenModal(true)}
+          >
+            + Импорт из Excel
+          </Button>
+
+          <Label
+            htmlFor="pdf-upload"
+            className="flex items-center gap-2 bg-yellow-400 text-white font-medium px-4 py-2 rounded-lg shadow-md cursor-pointer hover:bg-yellow-500 transition-transform hover:scale-105"
+          >
+            <FaUpload />
+            Загрузить PDF
+            <FileInput
+              id="pdf-upload"
+              className="hidden"
+              accept=".pdf"
+              onChange={handlePdfChange}
+            />
+          </Label>
+
+          {pdfFile && (
+            <Button
+              color="info"
+              onClick={handlePdfUpload}
+              disabled={uploading}
+              className="shadow-md hover:scale-105 transition-transform duration-200"
+            >
+              {uploading ? "Загрузка..." : "📄 Отправить PDF"}
+            </Button>
+          )}
+
           <Link to="/analytics">
             <Button color="blue" className="hover:scale-105 transition">
               📊 Аналитика
             </Button>
           </Link>
+
           <Link to="/graph">
             <Button color="purple" className="hover:scale-105 transition">
               🔗 Граф
             </Button>
           </Link>
+
           <Link to="/companies">
             <Button color="light" className="hover:scale-105 transition">
               ← Назад
@@ -247,11 +327,7 @@ const CompanyInfo: React.FC = () => {
                       className="flex-1"
                     />
                     <div className="flex gap-2">
-                      <Button
-                        color="success"
-                        size="sm"
-                        onClick={() => handleSave(key)}
-                      >
+                      <Button color="success" size="sm" onClick={() => handleSave(key)}>
                         Сохранить
                       </Button>
                       <Button color="gray" size="sm" onClick={handleCancel}>
@@ -276,6 +352,7 @@ const CompanyInfo: React.FC = () => {
               </div>
             </div>
           ))}
+
           {filteredData.length === 0 && (
             <p className="text-center text-gray-500 py-6">
               Ничего не найдено по запросу «{searchQuery}»
@@ -283,6 +360,8 @@ const CompanyInfo: React.FC = () => {
           )}
         </div>
       </div>
+
+      <ImportFromFile show={openModal} switchState={setOpenModal} />
     </div>
   );
 };

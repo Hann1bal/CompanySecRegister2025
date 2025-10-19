@@ -11,17 +11,24 @@ export const instance = axios.create({
 // создаем перехватчик запросов
 // который к каждому запросу добавляет accessToken из localStorage
 instance.interceptors.request.use((config) => {
-  (config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`),
-    (config.headers["Content-Type"] = "application/json");
+  const isFormData = config.data instanceof FormData;
+
+  if (!isFormData) {
+    config.headers["Content-Type"] = "application/json";
+  } else {
+    // 👇 Axios сам добавит boundary
+    delete config.headers["Content-Type"];
+  }
+
   return config;
 });
 
 // создаем перехватчик ответов
 // который в случае невалидного accessToken попытается его обновить
 // и переотправить запрос с обновленным accessToken
-instance.interceptors.response.use(
-  // в случае валидного accessToken ничего не делаем:
-  (config) => {
-    return config;
-  }
-);
+// instance.interceptors.response.use(
+//   // в случае валидного accessToken ничего не делаем:
+//   (config) => {
+//     return config;
+//   }
+// );

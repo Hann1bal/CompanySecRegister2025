@@ -42,14 +42,38 @@ class CompanyStore{
         }
     }
 
+  updateNodeLocal(inn: string, company: ICompany) {
+    let tmp = this.data?.findIndex((c) => c.inn == inn);
+    if (tmp && tmp > -1) {
+      this.data?.fill(company, tmp, tmp + 1);
+    }
+  }
+
     async updateCompanyField(inn: string, key:string, value: any){
         const payload = { [key]: value };
         let response = await PutService.updateCompanyField(inn, payload)
         if (response.status<300){
-            this.getData()
-            this.getCompanyByInn(inn)
+            this.updateNodeLocal(inn, response.data.company)
         }
     }
+
+    async importCompaniesFromExcel(file: File) {
+    try {
+      let response = await PostService.uploadExcelWithCompnanies(file)
+      if (response.status < 300) {
+        console.log("✅ Импорт завершён:", response.data);
+        await this.getData();
+      }
+    } catch (error: any) {
+      console.error("❌ Ошибка при импорте Excel:", error);
+      throw error;
+    }
+  }
+
+  async importPdf(file: File){
+    const response = await PostService.uploadPdfFile(file)
+    console.log('first', response)
+  }
 
 
 }

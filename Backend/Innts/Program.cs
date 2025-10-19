@@ -56,7 +56,7 @@ builder.Services.AddDbContextFactory<DatabaseContext>
     }
 );
 builder.Services.AddScoped<IBaseRepository<CompanyModel>, CompanyRepository>();
-builder.Services.AddHostedService<TimedService>();
+//builder.Services.AddHostedService<TimedService>();
 builder.Services.AddEndpointsApiExplorer();
 
 

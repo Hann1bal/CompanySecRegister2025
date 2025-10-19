@@ -71,12 +71,14 @@ public class DataController(IBaseRepository<CompanyModel> dbRepository, IDbConte
 
             // Сохраняем изменения
             await _context.SaveChangesAsync();
+            
 
             return Ok(new
             {
                 message = "Компания успешно обновлена",
                 inn = inn,
-                updatedFields = updatedProperties
+                updatedFields = updatedProperties,
+                company=company
             });
         }
         catch (DbUpdateException ex)
